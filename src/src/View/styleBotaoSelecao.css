@@ -1,0 +1,18 @@
+.button{
+    -fx-background-color: #808080;
+    -fx-font-weight: bold;
+}
+
+.button:focused {
+    -fx-border-color: none;
+    -fx-border-width: 0;
+    -fx-border-style: none;
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 0;
+}
+
+.button:pressed {
+    -fx-background-color: #d3d3d3;
+    -fx-border-style: solid;
+    -fx-border-color: #808080;
+}
