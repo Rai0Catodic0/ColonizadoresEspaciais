@@ -31,6 +31,7 @@ public class Item implements IItem{
     @Override
     public int lutar() {
         Random gerador = new Random();
+        System.out.println("nave colonizadora");
         return gerador.ints(1,0,6).toArray()[0];
     }
 

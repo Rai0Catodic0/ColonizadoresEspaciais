@@ -18,6 +18,7 @@ public class NaveGuerra extends Nave implements INave{
                 max = result[i];
             }
         }
+        System.out.println("nave guerra "+max);
         return max;
     }
 }

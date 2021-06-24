@@ -82,7 +82,7 @@ public class Planeta  implements IPlaneta {
         //FIXME so funciona com nave de guerra ??
         System.out.println("Essa é a lista do planeta " + this +"antes de remover :"+itens);
         Item itemRemoverI = null;
-        if(itemRemovido.equals("naveColonizadora")){
+        if(itemRemovido.equals("naveColonizadora") || itemRemovido.equals("navecolonizadora")){
             for(Item item : itens){
                 //System.out.println("nave colonizadora");
                 if(item instanceof NaveColonizadora){
@@ -90,7 +90,7 @@ public class Planeta  implements IPlaneta {
                     break;
                 }
             }
-        }else if(itemRemovido.equals("naveGuerra")){
+        }else if(itemRemovido.equals("naveGuerra")|| itemRemovido.equals("naveguerra")){
             for(Item item : itens){
                 if(item instanceof NaveGuerra){
                     //System.out.println("nave guera");

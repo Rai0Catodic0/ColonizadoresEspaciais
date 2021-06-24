@@ -216,54 +216,17 @@ public class Tabuleiro {
             System.out.println("nao é nos ids");
             switch (itemMovido){
                 case "naveGuerra":
-                        item = origem.hasItem(NaveGuerra.class);
-                        if(item.movido){
-                            return new Object[] {1};
-                        }
-                        int atacante  = item.lutar();
-                        if(destino.hasItem(Satelite.class)!=null){
-                        // guerra X sateilite
-                        Satelite s = (Satelite) destino.hasItem(Satelite.class);
-
-                        int defensor = s.lutar();
-                        if(atacante > defensor){
-                            movimentoValido = -2;
-                            itemdestruido = s;
-                            System.out.println("nave ganhou");
-                            destino.Remover("satelite");
-                        }
-                        else{
-                            movimentoValido = -1;
-                        }
+                    item = origem.hasItem(NaveGuerra.class);
+                    if(item.movido){
+                        return new Object[] {1};
                     }
-                    else if(destino.hasItem(NaveGuerra.class)!=null){
-                        //luta nave guerra X nave guerra
-                        NaveGuerra n = (NaveGuerra) destino.hasItem(NaveGuerra.class);
-                        int defensor = n.lutar();
-                        if(atacante > defensor){
-                            movimentoValido = -2;
-                            itemdestruido = n;
-                            destino.Remover("naveGuerra");
-                        }
-                        else{
-                            movimentoValido = -1;
-                        }
-                    }else if(destino.hasItem(NaveColonizadora.class)!=null){
-                        //luta nave guerra X satelite
-                        NaveColonizadora n = (NaveColonizadora) destino.hasItem(NaveColonizadora.class);
-                        int defensor = n.lutar();
-                        if(atacante > defensor){
-                            movimentoValido = -2;
-                            itemdestruido = n;
-                            destino.Remover("naveColonizadora");
-                        }
-                        else{
-                            movimentoValido = -1;
-                        }
-                    }else{
+                    if(destino.getItens().size()==0){
                         movimentoValido = 0;
+                        item.movido = true;
                     }
-
+                    else{
+                        return lutarNaveGuerra(origem, destino);
+                    }
                     break;
                 case "naveColonizadora":
                     item = origem.hasItem(NaveColonizadora.class);
@@ -281,24 +244,13 @@ public class Tabuleiro {
         }
         System.out.println("ESSE é o planeta origem "+origem);
         System.out.println("Essa é a lista do planeta origem, "+origem.getItens());
-            System.out.println("movimento: "+movimentoValido);
+        System.out.println("movimento: "+movimentoValido);
+
         if(movimentoValido == 0){
             item = origem.Remover(itemMovido);
             item.movido = true;
             destino.Inserir(itemMovido, item);
             return new Object[] {movimentoValido};
-        }
-        else if(movimentoValido == -1){
-            item = origem.Remover(itemMovido);
-            item.movido = true;
-            destino.Inserir(itemMovido, item);
-            return new Object[] {movimentoValido, itemdestruido};
-        }
-        else  if(movimentoValido == -2){
-            item = origem.Remover(itemMovido);
-            item.movido = true;
-            destino.Inserir(item);
-            return new Object[] {movimentoValido, item};
         }
         return  new Object[] {movimentoValido};
     }
@@ -310,6 +262,39 @@ public class Tabuleiro {
     }
 
     // getrs e setrs
+
+    public Object[] lutarNaveGuerra(Planeta origem, Planeta destino){
+        Item atacante = origem.hasItem(NaveGuerra.class);
+        int forcaAtaque = atacante.lutar();
+        int forcaDefesaMax = 0;
+        Object[] resultado = null;
+        List<Item> desfensores = destino.getItens();
+        for(Item item : desfensores){
+            int forcaDefasa = item.lutar();
+            if(forcaDefesaMax < forcaDefasa){
+                forcaDefesaMax = forcaDefasa;
+            }
+        }
+        if(forcaAtaque > forcaDefesaMax){
+            resultado = new Object[1+ desfensores.size()];
+            resultado[0] = -2;
+            int i = 1;
+            atacante = origem.Remover(atacante.getType());
+            atacante.movido = true;
+            destino.Inserir(atacante);
+            for (Item item : desfensores){
+                resultado[i] = destino.Remover(item.getType());
+                i++;
+            }
+        }
+        else{
+            resultado = new Object[2];
+            resultado[0] = -1;
+            resultado[1] = origem.Remover(atacante.getType());
+        }
+        return resultado;
+    }
+
 
     public Planeta[][] getPlanetas() {
         return planetas;
