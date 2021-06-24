@@ -57,6 +57,7 @@ public class Controle {
     }
 
     public void TrocarVez(){
+        getVezJogador().ResetarMovimentos();
         numeroinicio ++;
         if(numeroinicio ==2){
             numeroinicio = 0;
@@ -133,16 +134,15 @@ public class Controle {
             getVezJogador().ExcluirItem(resultado);
             barraLateral.Esconder(getVezJogador());
             barraLateral.Desenhar(getVezJogador());
-           TrocarVez();
-           return true;
         }
         else if(resultado[0].equals(-2)){
             getVezProximoJogador().ExcluirItem(resultado);
             barraLateral.Esconder(getVezJogador());
             barraLateral.Desenhar(getVezJogador());
-            TrocarVez();
-            return true;
-        } else if(resultado[0].equals(0)){
+        }
+        if(resultado[0].equals(1)){
+            return false;
+        } else if(getVezJogador().MoveuTodosItens()){
             TrocarVez();
             return true;
         }

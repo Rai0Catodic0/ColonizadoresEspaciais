@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 
 
 public class SetupScene extends Group {
+
     String jogador1, jogador2;
     TextField nomePlayer1;
     TextField nomePlayer2;

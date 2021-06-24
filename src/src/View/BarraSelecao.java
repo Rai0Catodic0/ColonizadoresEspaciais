@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import java.util.List;
 
 public class BarraSelecao {
+
     private boolean naveColonizadoraSelecionada = false;
     private boolean naveGuerraSelecionada = false;
     private boolean sateliteSelecionado = false;

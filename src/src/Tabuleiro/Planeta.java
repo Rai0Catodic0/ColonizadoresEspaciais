@@ -23,6 +23,7 @@ public class Planeta  implements IPlaneta {
     public String type;
     String imgpath;
 
+
     public String getImgpath() {
         return imgpath+".png";
     }
@@ -38,7 +39,6 @@ public class Planeta  implements IPlaneta {
     public int getJ(){
         return j;
     }
-
 
     public Planeta(int i, int j, int ipixels, int jpixels, int id, String  type) {
         this.i = i;

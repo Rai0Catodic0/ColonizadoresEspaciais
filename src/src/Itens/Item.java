@@ -9,11 +9,14 @@ import Tabuleiro.Tabuleiro;
 public class Item implements IItem{
     public int i;
     public int j;
+    public boolean movido;
+
     List<Recursos> coletados = new ArrayList<Recursos>();
     public String representacao;
     Tabuleiro tabuleiro;
 
     public Item(int i, int j, String repre, Tabuleiro tab){
+
         //repre dever ser ou a ou v
         //a = jogador azul
         //v = jogador verde
@@ -21,6 +24,7 @@ public class Item implements IItem{
         this.i = i;
         this.j = j;
         this.representacao = repre;
+        movido = true;
     }
 
     // acoes do jogo

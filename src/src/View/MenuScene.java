@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 
 public class MenuScene  extends Group {
 
+
     Button jogar;
     Button sair;
     Text titulo;

@@ -3,13 +3,14 @@ package Tabuleiro;
 import Itens.Item;
 import Itens.NaveColonizadora;
 import Itens.NaveGuerra;
-import Recursos.*;
-
+import Itens.Satelite;
+import Recursos.Combustivel;
+import Recursos.Mineral;
+import Recursos.Municao;
+import Recursos.Recursos;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 public class Jogador {
     public int pontuacao;
@@ -136,5 +137,35 @@ public class Jogador {
                 pontuacao+=3;
             }
         }
+    }
+
+    public boolean MoveuTodosItens(){
+        int totalItens = 0;
+        int itensMovidos = 0;
+        for(Item i : itens){
+            String s = i.getType();
+         if(!(i instanceof Satelite)){
+             totalItens++;
+             if(i.movido){
+                 itensMovidos++;
+             }
+         }
+        }
+        if(itensMovidos==totalItens){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void ResetarMovimentos(){
+        int totalItens = 0;
+        int itensMovidos = 0;
+        for(Item i : itens){
+            if(!(i instanceof Satelite)) {
+                i.movido = false;
+            }
+        }
+
     }
 }

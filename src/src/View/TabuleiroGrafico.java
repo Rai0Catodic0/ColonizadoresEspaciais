@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TabuleiroGrafico  {
+
     Tabuleiro tab;
     Group root;
     List<Tile> botoes = new ArrayList<>();

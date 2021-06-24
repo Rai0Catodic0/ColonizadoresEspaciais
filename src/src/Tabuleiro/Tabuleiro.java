@@ -277,16 +277,19 @@ public class Tabuleiro {
             System.out.println("movimento: "+movimentoValido);
         if(movimentoValido == 0){
             item = origem.Remover(itemMovido);
+            item.movido = true;
             destino.Inserir(itemMovido, item);
             return new Object[] {movimentoValido};
         }
         else if(movimentoValido == -1){
             item = origem.Remover(itemMovido);
+            item.movido = true;
             destino.Inserir(itemMovido, item);
             return new Object[] {movimentoValido, itemdestruido};
         }
         else  if(movimentoValido == -2){
             item = origem.Remover(itemMovido);
+            item.movido = true;
             destino.Inserir(item);
             return new Object[] {movimentoValido, item};
         }

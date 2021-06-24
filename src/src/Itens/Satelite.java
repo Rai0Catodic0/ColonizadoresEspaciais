@@ -13,6 +13,7 @@ public class Satelite extends Item implements ISatelite {
 
     @Override
     public int lutar(){
+
         Random gerador = new Random();
         int[] result =  gerador.ints(3,0,6).toArray();
         int max = 0;

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IItem {
+
     public static List<Recursos> coletados = new ArrayList<Recursos>();
     // acoes de jogo
     int lutar();

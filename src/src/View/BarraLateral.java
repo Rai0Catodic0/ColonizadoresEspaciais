@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 
 
 public class BarraLateral {
+
     public Group root;
      Rectangle lateralBar;
      Text metal;

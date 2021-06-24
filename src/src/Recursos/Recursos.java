@@ -1,6 +1,7 @@
 package Recursos;
 
 public  class Recursos {
+
     //descobrir oq fazer com isso :)
     String dono;
     public  Recursos(){

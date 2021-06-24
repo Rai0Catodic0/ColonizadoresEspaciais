@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tile extends Pane {
+
     List<Item> items = new ArrayList<>();
     BotaoPlaneta botao;
     ImageView images[];

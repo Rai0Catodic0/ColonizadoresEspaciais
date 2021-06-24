@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 
 public class BotaoPlaneta extends Button {
 
+
     public BotaoPlaneta(String imhpath, int[] positions){
         super();
         ImageView planetaImg = new ImageView(new Image(imhpath));

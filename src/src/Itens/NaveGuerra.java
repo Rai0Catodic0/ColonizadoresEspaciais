@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class NaveGuerra extends Nave implements INave{
     public NaveGuerra(int i, int j, String repre, Tabuleiro tab) {
+
         super(i, j, repre, tab);
     }
     @Override
