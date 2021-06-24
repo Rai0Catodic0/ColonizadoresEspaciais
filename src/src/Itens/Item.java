@@ -24,7 +24,7 @@ public class Item implements IItem{
         this.i = i;
         this.j = j;
         this.representacao = repre;
-        movido = true;
+        movido = false;
     }
 
     // acoes do jogo

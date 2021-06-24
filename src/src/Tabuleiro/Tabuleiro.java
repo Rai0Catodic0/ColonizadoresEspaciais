@@ -217,11 +217,14 @@ public class Tabuleiro {
             switch (itemMovido){
                 case "naveGuerra":
                         item = origem.hasItem(NaveGuerra.class);
+                        if(item.movido){
+                            return new Object[] {1};
+                        }
                         int atacante  = item.lutar();
-                    if(destino.hasItem(Satelite.class)!=null){
+                        if(destino.hasItem(Satelite.class)!=null){
                         // guerra X sateilite
                         Satelite s = (Satelite) destino.hasItem(Satelite.class);
-                        //FIXME preciso da instancia do item , vamo ter que modificar as coisas ?
+
                         int defensor = s.lutar();
                         if(atacante > defensor){
                             movimentoValido = -2;
@@ -263,6 +266,10 @@ public class Tabuleiro {
 
                     break;
                 case "naveColonizadora":
+                    item = origem.hasItem(NaveColonizadora.class);
+                    if(item.movido){
+                        return new Object[] {1};
+                    }
                     if(destino.hasItem(NaveColonizadora.class)!=null){
                         movimentoValido = 1;
                     }

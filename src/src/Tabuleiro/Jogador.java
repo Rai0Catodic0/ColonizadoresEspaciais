@@ -39,23 +39,31 @@ public class Jogador {
         this.itens.add(satelite);
     }
 
-//    @Override
-//    public void update(Observable observable, Object o) {
-//        Item item = (Item) o;
-//        this.itens.add(item);
-//        if(item instanceof NaveColonizadora){
-//            this.pontuacao +=1;
-//        }
-//        else if(item instanceof NaveGuerra){
-//            this.pontuacao += 2;
-//        }
-//        else{
-//            this.pontuacao +=3;
-//        }
-//    }
+        private  void remove(Class tipo){
+            for(Recursos r : recursos){
+                if(r.getClass() == tipo){
+                    System.out.println(recursos.remove(r));
+                    break;
+                }
+            }
+        }
 
-    public void RemoverRecurso(){
-
+    public void RemoverRecurso(String item){
+        switch (item){
+            case "naveColonizadora":
+                this.remove(Mineral.class);
+                this.remove(Combustivel.class);
+                break;
+            case "naveGuerra":
+                this.remove(Mineral.class);
+                this.remove(Combustivel.class);
+                this.remove(Municao.class);
+                break;
+            case "satelite":
+                this.remove(Mineral.class);
+                this.remove(Mineral.class);
+                this.remove(Municao.class);
+        }
     }
     public void setRecursos(){
         for(Recursos recurso : itens.get(0).getColetados()){
