@@ -3,7 +3,7 @@ package Tabuleiro;
 import Itens.Item;
 import Itens.NaveColonizadora;
 import Itens.NaveGuerra;
-import Recursos.Recursos;
+import Recursos.*;
 
 
 import java.util.ArrayList;
@@ -22,6 +22,15 @@ public class Jogador {
         this.repre = repre;
         this.itens = new ArrayList<>();
         this.recursos = new ArrayList<>();
+        Recursos metal = new Mineral();
+        Recursos municao = new Municao();
+        Recursos combustivel = new Combustivel();
+        metal.setDono(this.repre);
+        municao.setDono(this.repre);
+        combustivel.setDono(this.repre);
+        this.recursos.add(metal);
+        this.recursos.add(municao);
+        this.recursos.add(combustivel);
     }
 
     public void setItens(Item nave, Item satelite){
@@ -62,7 +71,7 @@ public class Jogador {
         setRecursos();
         int[] saida = new int[6];
         Item item = itens.get(0);
-        for(Recursos r : item.getColetados()){
+        for(Recursos r : this.recursos){
             String tipo = r.getType();
             switch (tipo){
                 case "Mineral":
