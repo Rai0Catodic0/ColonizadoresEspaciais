@@ -105,8 +105,11 @@ public class Controle {
         } else if(objeto.equals("naveColonizadora") && status[0]>=1 && status[2]>=1){
             getVezJogador().RemoverRecurso();
             return true;
+        }else if(status[0]>=2 && status[1]>=1){
+            getVezJogador().RemoverRecurso();
+            return true;
         }
-        return true;
+        return false;
     }
 
     public void Construir(int planetaClicado, String objeto){
