@@ -83,8 +83,8 @@ public class Controle {
             double progresso = getVezJogador().pontuacao/12.0;
             System.out.println("ESSE É O PROGRESSO: "+progresso);
             barraPontuacao.setProgress(progresso);
-            root.getChildren().remove(barraPontuacao);
-            root.getChildren().add(barraPontuacao);
+            //root.getChildren().remove(barraPontuacao);
+            //root.getChildren().add(barraPontuacao);
         } else if(vez == 1){
             barraLateral.Esconder(azul);
             barraLateral.Desenhar(verde);
@@ -93,8 +93,8 @@ public class Controle {
             double progresso = getVezJogador().pontuacao/12.0;
             System.out.println("ESSE É O PROGRESSO: "+progresso);
             barraPontuacao.setProgress(progresso);
-            root.getChildren().remove(barraPontuacao);
-            root.getChildren().add(barraPontuacao);
+            //root.getChildren().remove(barraPontuacao);
+            //root.getChildren().add(barraPontuacao);
         }
     }
 
@@ -118,15 +118,16 @@ public class Controle {
 
     public boolean ValidarConstrucao(String objeto){
         int [] status = getVezJogador().status();
+        System.out.println("CONSTRUIR :"+objeto);
         if(objeto.equals("naveGuerra") && status[0]>=1 && status[1]>=1 && status[2]>=1){
-            //getVezJogador().RemoverRecurso();
+            getVezJogador().RemoverRecurso(objeto);
             return true;
 
         } else if(objeto.equals("naveColonizadora") && status[0]>=1 && status[2]>=1){
-            getVezJogador().RemoverRecurso();
+            getVezJogador().RemoverRecurso(objeto);
             return true;
         }else if(status[0]>=2 && status[1]>=1){
-            getVezJogador().RemoverRecurso();
+            getVezJogador().RemoverRecurso(objeto);
             return true;
         }
         return false;
