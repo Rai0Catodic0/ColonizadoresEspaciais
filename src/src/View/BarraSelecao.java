@@ -117,7 +117,9 @@ public class BarraSelecao {
             @Override
             public void handle(ActionEvent actionEvent) {
                 construirNaveColonizadora = true;
-                controle.Construir(planetaClicado, "naveColonizadora");
+                if(controle.Construir(planetaClicado, "naveColonizadora")){
+                    Esconder();
+                }
             }
         });
 
@@ -267,12 +269,14 @@ public class BarraSelecao {
         System.out.println("CLICOU"+id);
         if(mover && naveColonizadoraSelecionada){
             if(controle.Mover(planetaClicado, planetaRecebeAcao, "naveColonizadora")){
+                naveColonizadoraSelecionada = false;
                 mover = false;
                 Esconder();
             }
         } else if(mover && naveGuerraSelecionada){
             if(controle.Mover(planetaClicado, planetaRecebeAcao, "naveGuerra")){
                 mover = false;
+                naveColonizadoraSelecionada = false;
                 Esconder();
             }
 

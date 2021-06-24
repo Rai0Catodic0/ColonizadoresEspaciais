@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.text.Font;
 
 import java.util.Random;
@@ -26,9 +27,14 @@ public class Controle {
     private int numeroinicio;
     //1 = azul
     //0 = verde
+    private ProgressBar barraPontuacao;
 
 
     public Controle(Tabuleiro tab, Group root) {
+        barraPontuacao = new ProgressBar(0);
+        barraPontuacao.setLayoutX(300);
+        barraPontuacao.setLayoutY(50);
+        //barraPontuacao.setMinWidth(400);
         this.tab = tab;
         this.numeroinicio = 0;
         verde = tab.getJogadorVerde();
@@ -57,6 +63,7 @@ public class Controle {
     }
 
     public void TrocarVez(){
+        System.out.println("esse é o ponto do jogador: " + getVezJogador().pontuacao);
         getVezJogador().ResetarMovimentos();
         numeroinicio ++;
         if(numeroinicio ==2){
@@ -71,11 +78,23 @@ public class Controle {
         else if(vez == 0){
             barraLateral.Esconder(verde);
             barraLateral.Desenhar(azul);
+            barraPontuacao.setStyle("-fx-accent: blue");
             vez = 1;
+            double progresso = getVezJogador().pontuacao/12.0;
+            System.out.println("ESSE É O PROGRESSO: "+progresso);
+            barraPontuacao.setProgress(progresso);
+            root.getChildren().remove(barraPontuacao);
+            root.getChildren().add(barraPontuacao);
         } else if(vez == 1){
             barraLateral.Esconder(azul);
             barraLateral.Desenhar(verde);
+            barraPontuacao.setStyle("-fx-accent: green");
             vez = 0;
+            double progresso = getVezJogador().pontuacao/12.0;
+            System.out.println("ESSE É O PROGRESSO: "+progresso);
+            barraPontuacao.setProgress(progresso);
+            root.getChildren().remove(barraPontuacao);
+            root.getChildren().add(barraPontuacao);
         }
     }
 
@@ -113,7 +132,7 @@ public class Controle {
         return false;
     }
 
-    public void Construir(int planetaClicado, String objeto){
+    public boolean Construir(int planetaClicado, String objeto){
         boolean construir = ValidarConstrucao(objeto);
         if(construir){
             Item construido = tab.Construir(planetaClicado, objeto);
@@ -121,6 +140,9 @@ public class Controle {
             barraLateral.Esconder(getVezJogador());
             barraLateral.Desenhar(getVezJogador());
             TrocarVez();
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -145,8 +167,10 @@ public class Controle {
         } else if(getVezJogador().MoveuTodosItens()){
             TrocarVez();
             return true;
+        } else {
+            return true;
         }
-        return false;
+
     }
 
     private boolean JogoRodando(){
@@ -158,6 +182,14 @@ public class Controle {
 
     public void IniciarJogo(){
         root.getChildren().add(botaoPassarVez);
+        if(getVez()==1){
+            barraPontuacao.setStyle("-fx-accent: blue");
+        } else {
+            barraPontuacao.setStyle("-fx-accent: green");
+        }
+        double progresso = getVezJogador().pontuacao/12;
+        barraPontuacao.setProgress(progresso);
+        root.getChildren().add(barraPontuacao);
         barraLateral.IniciarBarra();
         barraLateral.Desenhar(getVezJogador());
     }
