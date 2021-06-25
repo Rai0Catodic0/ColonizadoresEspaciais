@@ -15,9 +15,10 @@ public class App extends Application {
     public BarraSelecao barraSelecao;
     public Tabuleiro tab;
 
-
     @Override
     public void start(Stage stage) throws Exception{
+        SetupScene initial = new SetupScene();
+        Scene initialScene = new Scene(initial,2399,1199);
         Group root = new Group();
         Group sub = new Group();
         Scene scene = new Scene(root,2399,1199);
@@ -27,7 +28,8 @@ public class App extends Application {
 
         //Cria dois Tabuleiros e controle
         tab = new Tabuleiro();
-        Controle controle = new Controle(tab, root);
+        Controle controle = new Controle(tab, root, scene, stage);
+        initial.setControle(controle);
         barraSelecao  = new BarraSelecao(root, controle);
         TabuleiroGrafico tabg = new TabuleiroGrafico(root, barraSelecao);
         controle.setTabuleiroGrafico(tabg);
@@ -46,11 +48,10 @@ public class App extends Application {
         }
 
         root.getChildren().add(backgroundView);
-        controle.IniciarJogo();
         barraSelecao.IniciarBarra();
         root.getChildren().add(sub);
         tabg.Desenhar();
-        stage.setScene(scene);
+        stage.setScene(initialScene);
         stage.show();
     }
 

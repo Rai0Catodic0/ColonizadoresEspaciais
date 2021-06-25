@@ -5,10 +5,12 @@ import Itens.Item;
 import Tabuleiro.Jogador;
 import Tabuleiro.Tabuleiro;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.util.Random;
 
@@ -32,9 +34,14 @@ public class Controle {
     private Text nomeVerde;
     private Text pontosAzul;
     private Text pontosverde;
+    private Stage stage;
+    private Scene scene;
 
 
-    public Controle(Tabuleiro tab, Group root) {
+    public Controle(Tabuleiro tab, Group root, Scene scene, Stage stage) {
+
+        this.scene = scene;
+        this.stage=stage;
 
         avisos = new Text("");
         avisos.setLayoutX(700);
@@ -192,7 +199,7 @@ public class Controle {
             TrocarVez();
             return true;
         } else {
-            avisos.setText("Movimento bem sucedido, "+getVezJogador()+"! Você pode mover o resto dos seus itens ou construir!");
+            avisos.setText("Movimento bem sucedido, "+getVezJogador().nome+"! Você pode mover o resto dos seus itens ou construir!");
             return true;
         }
 
@@ -216,6 +223,17 @@ public class Controle {
         root.getChildren().add(pontosverde);
         barraLateral.IniciarBarra();
         barraLateral.Desenhar(getVezJogador());
+        stage.setScene(scene);
+    }
+
+    public void setAzulNome(String nome){
+        nomeAzul.setText(nome);
+        azul.nome = nome;
+    }
+
+    public void setVerdeNome(String nome){
+        nomeVerde.setText(nome);
+        verde.nome = nome;
     }
 
 }
