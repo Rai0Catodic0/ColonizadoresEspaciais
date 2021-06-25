@@ -100,7 +100,8 @@ public class Controle {
             tab.gerarRecurso();
         }
         if(!JogoRodando()){
-            tabg.Esconder();
+            Scene cenaFinal = new Scene(new CenaFinal(),2399,1199);
+            stage.setScene(cenaFinal);
         }
         else if(vez == 0){
             barraLateral.Esconder(verde);

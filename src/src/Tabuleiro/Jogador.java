@@ -21,7 +21,7 @@ public class Jogador {
 
     public Jogador(String repre, String nome){
         this.nome  = nome;
-        this.pontuacao = 0;
+        this.pontuacao = 9;
         this.repre = repre;
         this.itens = new ArrayList<>();
         this.recursos = new ArrayList<>();
