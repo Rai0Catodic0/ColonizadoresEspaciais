@@ -5,6 +5,10 @@ import Itens.NaveColonizadora;
 import Itens.NaveGuerra;
 import Itens.Satelite;
 import Recursos.Recursos;
+import excecoes.ItemAlreadyMoved;
+import excecoes.MovementBlockedByNaveColonizadora;
+import excecoes.MovementOUtOfReach;
+import excecoes.invalidMovement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -203,8 +207,9 @@ public class Tabuleiro {
     }
 
 
-    public Object[] Mover(int idDestino, int idOrigem, String itemMovidoTexto){
+    public Object[] Mover(int idDestino, int idOrigem, String itemMovidoTexto) throws RuntimeException{
         // 0 => eh valido, 1 => nao é valido , -1 => morreu de quem mexeu , -2 => morreu de quem recebeu ;
+        //TODO colocar esquema de excecoes
 
         int movimentoValido = 1;
         Planeta destino = AcharPlaneta(idDestino);
@@ -213,10 +218,10 @@ public class Tabuleiro {
         Item itemMovido = origem.hasItem(itemMovidoTexto); //ver se tem item para ser movido
 
         if(itemMovido==null || itemMovido.movido == true){  //item movido não existe no planeta origem ou já foi movido na rodada
-            return new Object[] {movimentoValido};
+            throw new ItemAlreadyMoved();
         }
-        if(!origem.isVizinho(idDestino)){             //planetas não são vizinhos
-            return new Object[] {movimentoValido};
+        if(!origem.isVizinho(idDestino)){//planetas não são vizinhos
+            throw  new MovementOUtOfReach();
         }
 
         if(destino.AvaliarSituacaoIntruso(itemMovido)==0){  //item movido sem luta
@@ -228,6 +233,10 @@ public class Tabuleiro {
         }
 
         if(destino.AvaliarSituacaoIntruso(itemMovido)==1){  //Havera luta
+            if(itemMovido.getType().equals("navecolonizadora")){
+                System.out.println("JOGOU");
+                throw  new MovementBlockedByNaveColonizadora();
+            }
             itemMovido.movido = true;
             Object resultado[] = destino.Lutar(itemMovido);
             if(resultado[0].equals(-1)){

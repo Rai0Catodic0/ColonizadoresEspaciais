@@ -4,6 +4,9 @@ package View;
 import Itens.Item;
 import Tabuleiro.Jogador;
 import Tabuleiro.Tabuleiro;
+import excecoes.ItemAlreadyMoved;
+import excecoes.MovementBlockedByNaveColonizadora;
+import excecoes.MovementOUtOfReach;
 import javafx.scene.Group;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.paint.Color;
@@ -171,7 +174,19 @@ public class Controle {
 
     public boolean Mover(int planetaClicado, int planetaRecebeAcao, String objeto){
         avisos.setText("");
-        Object[] resultado = tab.Mover(planetaClicado, planetaRecebeAcao, objeto);
+        Object[] resultado = null;
+        try{
+          resultado = tab.Mover(planetaClicado, planetaRecebeAcao, objeto);
+        } catch (ItemAlreadyMoved itemAlreadyMoved){
+            avisos.setText("Movimento Inválido. Essa nave já foi movida, escolha outra !");
+            return false;
+        }catch (MovementOUtOfReach movementOUtOfReach){
+            avisos.setText("Movimento Inválido. Mova para planetas vizinhos, siga as linhas!");
+            return  false;
+        }catch (MovementBlockedByNaveColonizadora movementBlockedByNaveColonizadora){
+            avisos.setText("Movimento Inválido. Naves colonizadoras não podem atacar outras naves, faça outro movimento !");
+            return false;
+        }
         if(resultado[0].equals(-1)){
             getVezJogador().ExcluirItem(resultado);
             barraLateral.Esconder(getVezJogador());

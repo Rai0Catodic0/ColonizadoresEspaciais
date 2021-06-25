@@ -1,6 +1,6 @@
 package excecoes;
 
-public class ItemAlreadyMoved extends Exception{
+public class ItemAlreadyMoved extends invalidMovement{
 
     @Override
     public String getMessage(){
