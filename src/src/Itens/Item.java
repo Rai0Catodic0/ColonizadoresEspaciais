@@ -77,7 +77,7 @@ public class Item implements IItem{
          *  retorna o cominho que contem a imagem pra esse item
          */
         String imgPath;
-        imgPath = "images/"+this.getType()+this.representacao+".png";
+        imgPath = "imags/"+this.getType()+this.representacao+".png";
         return imgPath;
     }
 }

@@ -1,6 +1,8 @@
 package View;
 
 import Itens.Item;
+import com.sun.jdi.connect.IllegalConnectorArgumentsException;
+import excecoes.InvalidItemIcon;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -40,7 +42,11 @@ public class Tile extends Pane {
         });
 
         this.getChildren().add(botao);
-        this.Desenhar();
+        try {
+            this.Desenhar();
+        }catch (Exception e){
+            System.out.println("DEU RUIM"+e.getMessage());
+        }
     }
 
     // metodos pra modificar o tile
@@ -54,15 +60,19 @@ public class Tile extends Pane {
         }
     }
 
-    public void Desenhar(){
+    public void Desenhar() throws RuntimeException{
         //System.out.println("Esse é a lista de itens q vou desenhra: "+items+" no planeta "+this.id);
         int i = 0;
         int [] positionsX = {0,100,0};
         int [] positionsY = {0,100,100};
         for(Item item : this.items){
             System.out.println("61"+item);
-            System.out.println(item.getImgPath());
-            images[i] = new ImageView(new Image(item.getImgPath()));
+            System.out.println(item.getImgPath().contains("imags"));
+            try {
+                images[i] = new ImageView(new Image(item.getImgPath()));
+            } catch (Exception e) {
+                throw new InvalidItemIcon(item.getType(),item.getImgPath());
+            }
             images[i].setX(positionsX[i]);
             images[i].setY(positionsY[i]);
             //System.out.println("Essa é o item criado: "+item);
@@ -75,7 +85,13 @@ public class Tile extends Pane {
         //System.out.println("Essa é a nova lista de planetas que será atualizada no plabeta "+this.id+", "+itens);
         Esconder();
         this.items = itens;
-        Desenhar();
+
+        try {
+            this.Desenhar();
+        }catch (RuntimeException e){
+            System.out.println("DEU RUIM"+e.getMessage());
+        }
+
     }
 
     // setrs e getrs
