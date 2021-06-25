@@ -152,8 +152,6 @@ public class BarraLateral {
         root.getChildren().add(imageViewBullet);
         root.getChildren().add(imageViewFuel);
         root.getChildren().add(imageViewMetal);
-
-
     }
 
     public void Desenhar(Jogador jogador){

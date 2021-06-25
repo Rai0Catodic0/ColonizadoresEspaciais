@@ -40,8 +40,8 @@ public class Tabuleiro {
         } while (posicaoJogador1[0]==posicaoJogador2[0] && posicaoJogador1[1]==posicaoJogador2[1]);
 
         //Instanciar Jogadores em suas posições
-        Jogador jogador1 = new Jogador("a");//posicaoJogador1[0], posicaoJogador1[1]
-        Jogador jogador2 = new Jogador("v");//posicaoJogador2[0], posicaoJogador2[1]
+        Jogador jogador1 = new Jogador("a", "Jéssica");//posicaoJogador1[0], posicaoJogador1[1]
+        Jogador jogador2 = new Jogador("v", "Lucas");//posicaoJogador2[0], posicaoJogador2[1]
         this.azul = jogador1;
         this.verde = jogador2;
 
@@ -178,16 +178,13 @@ public class Tabuleiro {
         Random gerador = new Random();
         Recursos r = null ;
         int sorteado = gerador.nextInt(16);
-        System.out.println("planeta"+sorteado);
         int copia;
         if(sorteado > 8){
             copia = sorteado-8;
-            System.out.println(copia);
             this.AcharPlaneta(copia).GerarRecursos();
         }
         else if(sorteado <8){
             copia = sorteado+8;
-            System.out.println(copia);
             this.AcharPlaneta(copia).GerarRecursos();
         }
 
@@ -213,7 +210,6 @@ public class Tabuleiro {
         Item itemdestruido = null;
         Planeta origem = AcharPlaneta(idOrigem);
         if(origem.isVizinho(idDestino)){
-            System.out.println("nao é nos ids");
             switch (itemMovido){
                 case "naveGuerra":
                         item = origem.hasItem(NaveGuerra.class);
@@ -229,7 +225,6 @@ public class Tabuleiro {
                         if(atacante > defensor){
                             movimentoValido = -2;
                             itemdestruido = s;
-                            System.out.println("nave ganhou");
                             destino.Remover("satelite");
                         }
                         else{
@@ -279,9 +274,6 @@ public class Tabuleiro {
                     break;
             }
         }
-        System.out.println("ESSE é o planeta origem "+origem);
-        System.out.println("Essa é a lista do planeta origem, "+origem.getItens());
-            System.out.println("movimento: "+movimentoValido);
         if(movimentoValido == 0){
             item = origem.Remover(itemMovido);
             item.movido = true;
@@ -324,7 +316,6 @@ public class Tabuleiro {
                 ids.add(sorteado);
             }
         }
-        System.out.println(ids);
         int[] saida = ids.stream().mapToInt(i->i).toArray();
         return saida;
     }
