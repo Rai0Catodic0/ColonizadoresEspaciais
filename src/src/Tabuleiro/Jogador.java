@@ -17,8 +17,10 @@ public class Jogador {
     public List<Item> itens;
     public List<Recursos> recursos;
     public String repre;
+    public String nome;
 
-    public Jogador(String repre){
+    public Jogador(String repre, String nome){
+        this.nome  = nome;
         this.pontuacao = 0;
         this.repre = repre;
         this.itens = new ArrayList<>();
@@ -32,6 +34,16 @@ public class Jogador {
         this.recursos.add(metal);
         this.recursos.add(municao);
         this.recursos.add(combustivel);
+
+        Recursos metal2 = new Mineral();
+        Recursos municao2 = new Municao();
+        Recursos combustivel2 = new Combustivel();
+        metal2.setDono(this.repre);
+        municao2.setDono(this.repre);
+        combustivel2.setDono(this.repre);
+        this.recursos.add(metal2);
+        this.recursos.add(municao2);
+        this.recursos.add(combustivel2);
     }
 
     public void setItens(Item nave, Item satelite){
@@ -42,7 +54,6 @@ public class Jogador {
         private  void remove(Class tipo){
             for(Recursos r : recursos){
                 if(r.getClass() == tipo){
-                    System.out.println(recursos.remove(r));
                     break;
                 }
             }
@@ -69,7 +80,6 @@ public class Jogador {
         for(Recursos recurso : itens.get(0).getColetados()){
             if(recurso.getDono()==this.repre && recurso !=null){
                 if(!this.recursos.contains(recurso)){
-                    System.out.println("recurso "+this.repre+  " :"+recurso);
                     this.recursos.add(recurso);
                 }
             }

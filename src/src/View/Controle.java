@@ -2,14 +2,13 @@ package View;
 
 
 import Itens.Item;
-import Tabuleiro.Tabuleiro;
 import Tabuleiro.Jogador;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import Tabuleiro.Tabuleiro;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.util.Random;
 
@@ -21,41 +20,65 @@ public class Controle {
     private boolean construiu = false;
     private boolean passouVez = false;
     private Group root;
-    private Button botaoPassarVez;
     private int vez;
     private TabuleiroGrafico tabg;
     private int numeroinicio;
+    private Text avisos;
     //1 = azul
     //0 = verde
     private ProgressBar barraPontuacao;
+    private ProgressBar progressoAzul;
+    private Text nomeAzul;
+    private Text nomeVerde;
+    private Text pontosAzul;
+    private Text pontosverde;
 
 
     public Controle(Tabuleiro tab, Group root) {
+
+        avisos = new Text("");
+        avisos.setLayoutX(700);
+        avisos.setLayoutY(50);
+        avisos.setFont(Font.font("Verdana", 20));
+        avisos.setFill(Color.WHITE);
         barraPontuacao = new ProgressBar(0);
         barraPontuacao.setLayoutX(300);
         barraPontuacao.setLayoutY(50);
-        //barraPontuacao.setMinWidth(400);
+        barraPontuacao.setStyle("-fx-accent: green");
+
+        progressoAzul = new ProgressBar(0);
+        progressoAzul.setLayoutX(500);
+        progressoAzul.setLayoutY(50);
+        progressoAzul.setStyle("-fx-accent: blue");
+
+
+
         this.tab = tab;
         this.numeroinicio = 0;
         verde = tab.getJogadorVerde();
         azul = tab.getJogadorAzul();
         barraLateral = new BarraLateral(root);
         this.root = root;
-        botaoPassarVez = new Button();
-        botaoPassarVez.setText("Paasar a vez");
-        botaoPassarVez.setLayoutY(50);
-        botaoPassarVez.setLayoutX(0);
-        botaoPassarVez.setFont(Font.font("Verdana", 15));
-        botaoPassarVez.getStylesheets().add(getClass().getResource("styleBotaoSelecao.css").toExternalForm());
-        botaoPassarVez.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                TrocarVez();
-            }
-        });
         Random sortearInicio = new Random();
         vez = sortearInicio.nextInt(2);
-        System.out.println("KKKKKKKKKKKKKKKKKKKKKKKKK vez do jogador: "+vez);
+        pontosAzul = new Text(String.valueOf(0));
+        pontosAzul.setLayoutX(545);
+        pontosAzul.setLayoutY(66);
+        pontosAzul.setFont(Font.font("Verdana", 18));
+        pontosverde = new Text((String.valueOf(0)));
+        pontosverde.setLayoutX(345);
+        pontosverde.setLayoutY(66);
+        pontosverde.setFont(Font.font("Verdana", 18));
+        nomeAzul = new Text(azul.nome);
+        nomeAzul.setLayoutX(500);
+        nomeAzul.setLayoutY(85);
+        nomeAzul.setFont(Font.font("Verdana", 18));
+        nomeAzul.setFill(Color.WHITE);
+        nomeVerde = new Text(verde.nome);
+       nomeVerde.setLayoutX(300);
+       nomeVerde.setLayoutY(85);
+       nomeVerde.setFont(Font.font("Verdana", 18));
+       nomeVerde.setFill(Color.WHITE);
     }
 
     public void setTabuleiroGrafico(TabuleiroGrafico tabg){
@@ -63,38 +86,29 @@ public class Controle {
     }
 
     public void TrocarVez(){
-        System.out.println("esse é o ponto do jogador: " + getVezJogador().pontuacao);
         getVezJogador().ResetarMovimentos();
         numeroinicio ++;
         if(numeroinicio ==2){
             numeroinicio = 0;
             tab.gerarRecurso();
-            System.out.println("recurso gerado");
         }
         if(!JogoRodando()){
-            System.out.println("ACABOU");
             tabg.Esconder();
         }
         else if(vez == 0){
             barraLateral.Esconder(verde);
             barraLateral.Desenhar(azul);
-            barraPontuacao.setStyle("-fx-accent: blue");
-            vez = 1;
             double progresso = getVezJogador().pontuacao/12.0;
-            System.out.println("ESSE É O PROGRESSO: "+progresso);
             barraPontuacao.setProgress(progresso);
-            //root.getChildren().remove(barraPontuacao);
-            //root.getChildren().add(barraPontuacao);
+            pontosverde.setText(String.valueOf(getVezJogador().pontuacao));
+            vez = 1;
         } else if(vez == 1){
             barraLateral.Esconder(azul);
             barraLateral.Desenhar(verde);
-            barraPontuacao.setStyle("-fx-accent: green");
-            vez = 0;
             double progresso = getVezJogador().pontuacao/12.0;
-            System.out.println("ESSE É O PROGRESSO: "+progresso);
-            barraPontuacao.setProgress(progresso);
-            //root.getChildren().remove(barraPontuacao);
-            //root.getChildren().add(barraPontuacao);
+            pontosAzul.setText(String.valueOf(getVezJogador().pontuacao));
+            progressoAzul.setProgress(progresso);
+            vez = 0;
         }
     }
 
@@ -118,7 +132,6 @@ public class Controle {
 
     public boolean ValidarConstrucao(String objeto){
         int [] status = getVezJogador().status();
-        System.out.println("CONSTRUIR :"+objeto);
         if(objeto.equals("naveGuerra") && status[0]>=1 && status[1]>=1 && status[2]>=1){
             getVezJogador().RemoverRecurso(objeto);
             return true;
@@ -147,6 +160,7 @@ public class Controle {
                 return false;
             }
         } else {
+            avisos.setText(getVezJogador().nome+", você não pode construir aqui!");
             return false;
         }
     }
@@ -156,23 +170,29 @@ public class Controle {
     }
 
     public boolean Mover(int planetaClicado, int planetaRecebeAcao, String objeto){
+        avisos.setText("");
         Object[] resultado = tab.Mover(planetaClicado, planetaRecebeAcao, objeto);
         if(resultado[0].equals(-1)){
             getVezJogador().ExcluirItem(resultado);
             barraLateral.Esconder(getVezJogador());
             barraLateral.Desenhar(getVezJogador());
+            avisos.setText(getVezJogador().nome+", você perdeu essa batalha! Boa defesa, "+getVezProximoJogador().nome);
         }
         else if(resultado[0].equals(-2)){
             getVezProximoJogador().ExcluirItem(resultado);
             barraLateral.Esconder(getVezJogador());
             barraLateral.Desenhar(getVezJogador());
+            avisos.setText(getVezJogador().nome+", você ganhou essa batalha!");
         }
         if(resultado[0].equals(1)){
+            avisos.setText("Movimento Inválido. Mova para planetas vizinhos, siga as linhas!");
             return false;
         } else if(getVezJogador().MoveuTodosItens()){
+            avisos.setText("Parabéns, "+getVezJogador().nome+ "moveu todos os seus itens! Agora é a vez de "+ getVezProximoJogador().nome);
             TrocarVez();
             return true;
         } else {
+            avisos.setText("Movimento bem sucedido, "+getVezJogador()+"! Você pode mover o resto dos seus itens ou construir!");
             return true;
         }
 
@@ -186,15 +206,14 @@ public class Controle {
     }
 
     public void IniciarJogo(){
-        root.getChildren().add(botaoPassarVez);
-        if(getVez()==1){
-            barraPontuacao.setStyle("-fx-accent: blue");
-        } else {
-            barraPontuacao.setStyle("-fx-accent: green");
-        }
-        double progresso = getVezJogador().pontuacao/12;
-        barraPontuacao.setProgress(progresso);
+        avisos.setText("O jogo começou! "+ getVezJogador().nome+", é a sua vez!");
+        root.getChildren().add(nomeVerde);
+        root.getChildren().add(nomeAzul);
+        root.getChildren().add(avisos);
+        root.getChildren().add(progressoAzul);
         root.getChildren().add(barraPontuacao);
+        root.getChildren().add(pontosAzul);
+        root.getChildren().add(pontosverde);
         barraLateral.IniciarBarra();
         barraLateral.Desenhar(getVezJogador());
     }

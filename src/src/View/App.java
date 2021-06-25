@@ -1,23 +1,15 @@
 package View;
 
+import Tabuleiro.Planeta;
 import Tabuleiro.Tabuleiro;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 //FIXME impedir um jogador de mover a nave do outro , e arrumar o bug na hora de mover
-
-
-
-import Tabuleiro.Planeta;
-import javafx.util.Duration;
 
 public class App extends Application {
     public BarraSelecao barraSelecao;
@@ -55,6 +47,7 @@ public class App extends Application {
 
         root.getChildren().add(backgroundView);
         controle.IniciarJogo();
+        barraSelecao.IniciarBarra();
         root.getChildren().add(sub);
         tabg.Desenhar();
         stage.setScene(scene);

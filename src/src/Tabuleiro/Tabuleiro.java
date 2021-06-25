@@ -40,8 +40,8 @@ public class Tabuleiro {
         } while (posicaoJogador1[0]==posicaoJogador2[0] && posicaoJogador1[1]==posicaoJogador2[1]);
 
         //Instanciar Jogadores em suas posições
-        Jogador jogador1 = new Jogador("a");//posicaoJogador1[0], posicaoJogador1[1]
-        Jogador jogador2 = new Jogador("v");//posicaoJogador2[0], posicaoJogador2[1]
+        Jogador jogador1 = new Jogador("a", "Jéssica");//posicaoJogador1[0], posicaoJogador1[1]
+        Jogador jogador2 = new Jogador("v", "Gabriel");//posicaoJogador2[0], posicaoJogador2[1]
         this.azul = jogador1;
         this.verde = jogador2;
 
@@ -178,16 +178,13 @@ public class Tabuleiro {
         Random gerador = new Random();
         Recursos r = null ;
         int sorteado = gerador.nextInt(16);
-        System.out.println("planeta"+sorteado);
         int copia;
         if(sorteado > 8){
             copia = sorteado-8;
-            System.out.println(copia);
             this.AcharPlaneta(copia).GerarRecursos();
         }
         else if(sorteado <8){
             copia = sorteado+8;
-            System.out.println(copia);
             this.AcharPlaneta(copia).GerarRecursos();
         }
 
@@ -212,6 +209,7 @@ public class Tabuleiro {
         int movimentoValido = 1;
         Planeta destino = AcharPlaneta(idDestino);
         Planeta origem = AcharPlaneta(idOrigem);
+
         Item itemMovido = origem.hasItem(itemMovidoTexto); //ver se tem item para ser movido
 
         if(itemMovido==null || itemMovido.movido == true){  //item movido não existe no planeta origem ou já foi movido na rodada
@@ -301,7 +299,6 @@ public class Tabuleiro {
                 ids.add(sorteado);
             }
         }
-        System.out.println(ids);
         int[] saida = ids.stream().mapToInt(i->i).toArray();
         return saida;
     }

@@ -74,4 +74,8 @@ this.backgroundView = new ImageView(background);
         this.getChildren().remove(this.btnSubmit);
 
     }
+
+    public Button getBtnSubmit(){
+        return btnSubmit;
+    }
 }
