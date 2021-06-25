@@ -33,7 +33,12 @@ public class Tile extends Pane {
     // tudo bem classe meio inuteis
     // so uma interface tá show
     public void IniciarTile(){
-        botao = new BotaoPlaneta(imgpath, positions);
+        try{
+            botao = new BotaoPlaneta(imgpath, positions);
+        }catch (RuntimeException e){
+            System.out.println("DEU RUIM "+e.getMessage());
+            return;
+        }
         botao.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
