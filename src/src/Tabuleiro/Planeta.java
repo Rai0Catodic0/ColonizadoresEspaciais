@@ -64,13 +64,74 @@ public class Planeta  implements IPlaneta {
         return itens;
     }
 
+    public boolean MesmaCor(Item item){
+        if((itens.size()>0 && itens.get(0).getRepresentacao().equals(item.getRepresentacao()))||(itens.size()==0)){ //planeta vazio ou itens de cores iguais
+            return true;
+        }
+        return false; //itens de cores diferentes
+    }
+
+    public boolean EhVazio(){
+        if(itens.size()==0){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean EhLotado(){
+        if(itens.size()==3){
+            return true;
+        }
+        return false;
+    }
+
+    public int AvaliarSituacaoIntruso(Item item){
+        if(!EhLotado() && MesmaCor(item)){
+            //pode inserir
+            return 0;
+        } else if(!MesmaCor(item)){ //planeta tem itens já e com cores diferentes do intruso
+            //haverá luta com luta
+            return 1;
+        } else {
+            return 2; //não pode inserir
+        }
+    }
+
+    public Object[] Lutar(Item itemIntruso){
+        boolean vitoriaIntruso = true;
+        for(Item item : itens){
+           if(item.lutar()>itemIntruso.lutar()){
+               vitoriaIntruso = false;
+               break;
+           }
+        }
+        if(!vitoriaIntruso){
+            return new Object[] {-1,itemIntruso};
+        }else{
+            Object resultado[] = new Object[itens.size()+1];
+            int i = 1;
+            resultado[0] = -2;
+            for(Item item : itens){
+                resultado[i] = item;
+            }
+            return resultado;
+        }
+    }
+
+    public void RemoverTodosItens(){
+        itens.clear();
+    }
 
     @Override
-    public void Inserir(Item item) {
-        itens.add(item);
-        if(this.tile!=null){
-            this.tile.update(this.itens);
+    public boolean Inserir(Item item) {
+        if(AvaliarSituacaoIntruso(item)==0){
+            this.itens.add(item);
+            if(this.tile!=null){
+                this.tile.update(this.itens);
+            }
+            return true;
         }
+        return false;
     }
 
     public void Inserir(String itemInseridoString, Item itemInserido) {
@@ -161,38 +222,51 @@ public class Planeta  implements IPlaneta {
     }
 
     public Item Construir(String objeto) {
+
         Item construtor = null;
         Item construido = null;
-        if (objeto.equals("naveGuerra")) {
-            for (Item item : itens) {
-                if (item instanceof Satelite) {
-                    construtor = item;
-                    break;
-                }
-            }
-            construido = ((Satelite) construtor).ConstruirNave('g');
-            this.Inserir(construido);
-        } else if (objeto.equals("satelite")) {
-            for (Item item : itens) {
-                if (item instanceof NaveColonizadora) {
-                    construtor = item;
-                    break;
-                }
-            }
-            construido = ((NaveColonizadora) construtor).Construir('g');
-            this.Inserir(construido);
-        } else {
-            for (Item item : itens) {
-                if (item instanceof Satelite) {
-                    construtor = item;
-                    break;
-                }
-            }
-            construido = ((Satelite) construtor).ConstruirNave('c');
-            this.Inserir(construido);
-        }
 
-        return construido;
+        if (objeto.equals("naveGuerra")) {
+
+            construtor = this.hasItem("satelite");
+            if (construtor != null) {
+                construido = ((Satelite) construtor).ConstruirNave('g');
+            } else {
+                return null;
+            }
+            if (this.Inserir(construido)) {
+                return construido;
+            } else {
+                return null;
+            }
+
+        } else if (objeto.equals("satelite")) {
+
+            construtor = this.hasItem("naveColonizadora");
+            if (construtor != null) {
+                construido = ((NaveColonizadora) construtor).ConstruirSatelite();
+            } else {
+                return null;
+            }
+            if (this.Inserir(construido)) {
+                return construido;
+            } else {
+                return null;
+            }
+
+        } else {
+            construtor = this.hasItem("satelite");
+            if (construtor != null) {
+                construido = ((Satelite) construtor).ConstruirNave('c');
+            } else {
+                return null;
+            }
+            if (this.Inserir(construido)) {
+                return construido;
+            } else {
+                return null;
+            }
+        }
     }
 
     public <tipo> Item hasItem(Class<?> tipo){
@@ -202,6 +276,16 @@ public class Planeta  implements IPlaneta {
             }
         }
         return null;
+    }
+
+    public Item hasItem(String item){
+        if(item.equals("naveGuerra")){
+            return this.hasItem(NaveGuerra.class);
+        } else if (item.equals("naveColonizadora")){
+            return this.hasItem(NaveColonizadora.class);
+        } else {
+            return hasItem(Satelite.class);
+        }
     }
 
 }

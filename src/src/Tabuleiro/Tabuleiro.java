@@ -193,6 +193,7 @@ public class Tabuleiro {
 
     }
 
+
     private Planeta AcharPlaneta(int id){
         for(int i = 0; i<5; i++){
             for(int j = 0; j<5;j++){
@@ -205,54 +206,45 @@ public class Tabuleiro {
     }
 
 
-    public Object[] Mover(int idDestino, int idOrigem, String itemMovido){
+    public Object[] Mover(int idDestino, int idOrigem, String itemMovidoTexto){
         // 0 => eh valido, 1 => nao é valido , -1 => morreu de quem mexeu , -2 => morreu de quem recebeu ;
+
         int movimentoValido = 1;
         Planeta destino = AcharPlaneta(idDestino);
-        Item item;
-        Item itemdestruido = null;
         Planeta origem = AcharPlaneta(idOrigem);
-        if(origem.isVizinho(idDestino)){
-            System.out.println("nao é nos ids");
-            switch (itemMovido){
-                case "naveGuerra":
-                    item = origem.hasItem(NaveGuerra.class);
-                    if(item.movido){
-                        return new Object[] {1};
-                    }
-                    if(destino.getItens().size()==0){
-                        movimentoValido = 0;
-                        item.movido = true;
-                    }
-                    else{
-                        return lutarNaveGuerra(origem, destino);
-                    }
-                    break;
-                case "naveColonizadora":
-                    item = origem.hasItem(NaveColonizadora.class);
-                    if(item.movido){
-                        return new Object[] {1};
-                    }
-                    if(destino.hasItem(NaveColonizadora.class)!=null){
-                        movimentoValido = 1;
-                    }
-                    else{
-                        movimentoValido = 0;
-                    }
-                    break;
-            }
-        }
-        System.out.println("ESSE é o planeta origem "+origem);
-        System.out.println("Essa é a lista do planeta origem, "+origem.getItens());
-        System.out.println("movimento: "+movimentoValido);
+        Item itemMovido = origem.hasItem(itemMovidoTexto); //ver se tem item para ser movido
 
-        if(movimentoValido == 0){
-            item = origem.Remover(itemMovido);
-            item.movido = true;
-            destino.Inserir(itemMovido, item);
+        if(itemMovido==null || itemMovido.movido == true){  //item movido não existe no planeta origem ou já foi movido na rodada
             return new Object[] {movimentoValido};
         }
-        return  new Object[] {movimentoValido};
+        if(!origem.isVizinho(idDestino)){             //planetas não são vizinhos
+            return new Object[] {movimentoValido};
+        }
+
+        if(destino.AvaliarSituacaoIntruso(itemMovido)==0){  //item movido sem luta
+            movimentoValido = 0;
+            origem.Remover(itemMovido);
+            destino.Inserir(itemMovido);
+            itemMovido.movido = true;
+            return new Object[] {movimentoValido};
+        }
+
+        if(destino.AvaliarSituacaoIntruso(itemMovido)==1){  //Havera luta
+            itemMovido.movido = true;
+            Object resultado[] = destino.Lutar(itemMovido);
+            if(resultado[0].equals(-1)){
+                origem.Remover(itemMovido);
+            } else if(resultado[0].equals(-2)){
+                origem.Remover(itemMovido);
+                destino.RemoverTodosItens();
+                destino.Inserir(itemMovido);
+            }
+            return resultado;
+        }
+
+        return new Object[] {movimentoValido};   //não há possibilidade de inserir o item -> destino.AvaliarSituacaoIntruso(itemMovido)==2
+
+
     }
 
     public Item Construir(int id, String objeto){

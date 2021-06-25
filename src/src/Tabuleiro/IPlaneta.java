@@ -8,7 +8,7 @@ import java.util.List;
 public interface IPlaneta {
 
     void Remover(Item item);
-    void Inserir(Item item);
+    boolean Inserir(Item item);
     void GerarRecursos();
     List<Item> getItens();
     //void addObserver(Jogador j);

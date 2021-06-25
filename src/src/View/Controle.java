@@ -137,11 +137,15 @@ public class Controle {
         boolean construir = ValidarConstrucao(objeto);
         if(construir){
             Item construido = tab.Construir(planetaClicado, objeto);
-            getVezJogador().AdicionarItem(new Object[] {0,construido});
-            barraLateral.Esconder(getVezJogador());
-            barraLateral.Desenhar(getVezJogador());
-            TrocarVez();
-            return true;
+            if(construido!=null){
+                getVezJogador().AdicionarItem(new Object[] {0,construido});
+                barraLateral.Esconder(getVezJogador());
+                barraLateral.Desenhar(getVezJogador());
+                TrocarVez();
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

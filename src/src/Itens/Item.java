@@ -1,10 +1,10 @@
 package Itens;
-import java.awt.image.BufferedImage;
-import java.util.Random;
-import java.util.List;
-import java.util.ArrayList;
 import Recursos.Recursos;
 import Tabuleiro.Tabuleiro;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Item implements IItem{
     public int i;
@@ -51,6 +51,10 @@ public class Item implements IItem{
 
     public List<Recursos> getColetados() {
         return coletados;
+    }
+
+    public String getRepresentacao(){
+        return representacao;
     }
 
     public String getType() {
