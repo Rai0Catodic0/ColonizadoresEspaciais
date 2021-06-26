@@ -188,7 +188,7 @@ public class Tabuleiro {
         if(sorteado > 8){
             copia = sorteado-8;
             this.AcharPlaneta(copia).GerarRecursos();
-            System.out.println("Os planetas Sorteados foram :"+sorteado+"e "+copia);
+            System.out.println("Os planetas Sorteados foram :"+sorteado+" e "+copia);
         }
         else if(sorteado <8){
             copia = sorteado+8;

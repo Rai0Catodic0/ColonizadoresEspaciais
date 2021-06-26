@@ -131,6 +131,7 @@ public class Controle {
             azul.setRecursos();
             verde.setRecursos();
         }
+
         if(!JogoRodando()){
             FinalizarJogo();
         }
