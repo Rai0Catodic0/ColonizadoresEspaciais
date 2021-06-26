@@ -208,8 +208,6 @@ public class Planeta  implements IPlaneta {
             case "combustivel":
                 result = new Combustivel();
                 break;
-            default:
-                result  = new Recursos();
         }
         if(this.itens.size() !=0){
             Item coletor = this.itens.get(0);

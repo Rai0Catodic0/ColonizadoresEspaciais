@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Controle {
@@ -119,7 +120,6 @@ public class Controle {
         TrocarVez();
     }
 
-
     public void TrocarVez(){
         getVezJogador().ResetarMovimentos();
         azul.TrocarVez();
@@ -130,6 +130,8 @@ public class Controle {
             tab.gerarRecurso();
             azul.setRecursosSorteados();
             verde.setRecursosSorteados();
+            System.out.println("recursos azul: "+ Arrays.toString(azul.status()));
+            System.out.println("recursos verd: "+Arrays.toString(verde.status()));
         }
 
         if(!JogoRodando()){
@@ -218,8 +220,6 @@ public class Controle {
             return true;
         }return false;
     }
-
-
 
     public boolean Mover(int planetaClicado, int planetaRecebeAcao, String objeto){
         avisos.setText("");

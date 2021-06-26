@@ -22,6 +22,7 @@ public class Jogador {
     public String repre;
     public String nome;
     boolean vez = false;
+    int[] saida;
 
     public Jogador(String repre){
 
@@ -61,6 +62,7 @@ public class Jogador {
             for(Recursos r : recursos){
                 if(r.getClass() == tipo){
                     recursos.remove(r);
+
                     break;
                 }
             }

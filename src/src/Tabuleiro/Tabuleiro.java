@@ -232,17 +232,17 @@ public class Tabuleiro {
             origem.Remover(itemMovido);
             destino.Inserir(itemMovido);
             itemMovido.movido = true;
-            System.out.println("aquiii na mudança 1");
+            //System.out.println("aquiii na mudança 1");
             return new Object[] {movimentoValido};
         }
 
         if(destino.AvaliarSituacaoIntruso(itemMovido)==1){  //Havera luta
             if(itemMovido.getType().equals("navecolonizadora")){
-                System.out.println("JOGOU");
+              //  System.out.println("JOGOU");
                 throw  new MovementBlockedByNaveColonizadora();
             }
             itemMovido.movido = true;
-            System.out.println("aquiii na mudança");
+            //System.out.println("aquiii na mudança");
             Object resultado[] = destino.Lutar(itemMovido);
             if(resultado[0].equals(-1)){
                 origem.Remover(itemMovido);
