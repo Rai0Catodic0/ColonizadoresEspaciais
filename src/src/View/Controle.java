@@ -5,6 +5,7 @@ import Itens.Item;
 import Tabuleiro.Jogador;
 import Tabuleiro.Planeta;
 import Tabuleiro.Tabuleiro;
+import excecoes.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -182,43 +183,57 @@ public class Controle {
         return azul;
     }
 
-    public boolean ValidarConstrucao(String objeto){
+    public void ValidarConstrucao(String objeto)throws RuntimeException{
         int [] status = getVezJogador().status();
         if(objeto.equals("naveGuerra") && status[0]>=1 && status[1]>=1 && status[2]>=1){
             getVezJogador().RemoverRecurso(objeto);
-            return true;
-
+            return;
         } else if(objeto.equals("naveColonizadora") && status[0]>=1 && status[2]>=1){
             getVezJogador().RemoverRecurso(objeto);
-            return true;
+            return;
         }else if(status[0]>=2 && status[1]>=1){
             getVezJogador().RemoverRecurso(objeto);
-            return true;
+            return;
+        }else{
+            System.out.println("EROO AO VALIDAR");
+            throw new NotEnoughRecursos(objeto);
         }
-        return false;
     }
 
     public boolean Construir(int planetaClicado, String objeto){
-        boolean construir = ValidarConstrucao(objeto);
-        if(construir){
-            Item construido = tab.Construir(planetaClicado, objeto);
-            if(construido!=null){
-                getVezJogador().AdicionarItem(new Object[] {0,construido});
-                TrocarVez();
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            avisos.setText(getVezJogador().nome+", você não pode construir aqui!");
+        try{
+            ValidarConstrucao(objeto);
+        }catch (NotEnoughRecursos notEnoughRecursos){
+            avisos.setText(getVezJogador().nome+","+notEnoughRecursos.getMessage());
+            System.out.println(notEnoughRecursos.getMessage());
             return false;
         }
+        System.out.println("FODaSE");
+        Item construido = tab.Construir(planetaClicado, objeto);
+        if(construido!=null){
+            getVezJogador().AdicionarItem(new Object[] {0,construido});
+            TrocarVez();
+            return true;
+        }return false;
     }
+
 
 
     public boolean Mover(int planetaClicado, int planetaRecebeAcao, String objeto){
         avisos.setText("");
-        Object[] resultado = tab.Mover(planetaClicado, planetaRecebeAcao, objeto);
+        Object[] resultado = null;
+        try{
+          resultado = tab.Mover(planetaClicado, planetaRecebeAcao, objeto);
+        } catch (ItemAlreadyMoved itemAlreadyMoved){
+            avisos.setText("Movimento Inválido. Essa nave já foi movida, escolha outra !");
+            return false;
+        }catch (MovementOUtOfReach movementOUtOfReach){
+            avisos.setText("Movimento Inválido. Mova para planetas vizinhos, siga as linhas!");
+            return  false;
+        }catch (MovementBlockedByNaveColonizadora movementBlockedByNaveColonizadora){
+            avisos.setText("Movimento Inválido. Naves colonizadoras não podem atacar outras naves, faça outro movimento !");
+            return false;
+        }
         if(resultado[0].equals(-1)){
             getVezJogador().ExcluirItem(resultado);
             avisos.setText(getVezJogador().nome+", você perdeu essa batalha! Boa defesa, "+getVezProximoJogador().nome);

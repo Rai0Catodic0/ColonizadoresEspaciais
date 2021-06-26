@@ -1,6 +1,6 @@
 package excecoes;
 
-public class UnableTobuild  extends Exception{
+public class UnableTobuild  extends RuntimeException{
 
     @Override
     public String getMessage(){
