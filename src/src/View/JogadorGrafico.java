@@ -73,6 +73,9 @@ public class JogadorGrafico implements PropertyChangeListener {
             update((int) propertyChangeEvent.getNewValue());
         } else if (propertyChangeEvent.getPropertyName().equals("status")){
             int status[] = (int[]) propertyChangeEvent.getNewValue();
+            int statusVelho[] = (int[]) propertyChangeEvent.getOldValue();
+            //System.out.println("velho"+statusVelho[0]+statusVelho[1]+statusVelho[2]+statusVelho[3]+statusVelho[4]+statusVelho[5]);
+            //System.out.println("novo"+status[0]+status[1]+status[2]+status[3]+status[4]+status[5]);
             barraLateral.update(status);
         } else if(propertyChangeEvent.getPropertyName().equals("vez")){
             TrocarVez();

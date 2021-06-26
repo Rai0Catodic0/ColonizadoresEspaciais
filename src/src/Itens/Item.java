@@ -38,6 +38,7 @@ public class Item implements IItem{
     public void recolherRecurso(Recursos coletado) {
         coletado.setDono(this.representacao);
         coletados.add(coletado);
+        System.out.println("recolhi "+coletado.getType());
     }
 
     // getters e setters
