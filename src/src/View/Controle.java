@@ -5,7 +5,6 @@ import Itens.Item;
 import Tabuleiro.Jogador;
 import Tabuleiro.Tabuleiro;
 import javafx.scene.Group;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -26,12 +25,8 @@ public class Controle {
     private Text avisos;
     //1 = azul
     //0 = verde
-    private ProgressBar barraPontuacao;
-    private ProgressBar progressoAzul;
-    private Text nomeAzul;
-    private Text nomeVerde;
-    private Text pontosAzul;
-    private Text pontosverde;
+    private JogadorGrafico jogGraficoAzul;
+    private JogadorGrafico jogGraficoVerde;
 
 
     public Controle(Tabuleiro tab, Group root) {
@@ -41,44 +36,31 @@ public class Controle {
         avisos.setLayoutY(50);
         avisos.setFont(Font.font("Verdana", 20));
         avisos.setFill(Color.WHITE);
-        barraPontuacao = new ProgressBar(0);
-        barraPontuacao.setLayoutX(300);
-        barraPontuacao.setLayoutY(50);
-        barraPontuacao.setStyle("-fx-accent: green");
-
-        progressoAzul = new ProgressBar(0);
-        progressoAzul.setLayoutX(500);
-        progressoAzul.setLayoutY(50);
-        progressoAzul.setStyle("-fx-accent: blue");
 
 
+        jogGraficoAzul = new JogadorGrafico(root,"blue",500,50);
+        jogGraficoVerde = new JogadorGrafico(root,"green",300,50);
 
         this.tab = tab;
         this.numeroinicio = 0;
-        verde = tab.getJogadorVerde();
-        azul = tab.getJogadorAzul();
+
+        azul = new Jogador("a","Isa");
+        verde = new Jogador("v", "Pedro");
+
+        verde.setItens(tab.getItensA().get(0));
+        verde.setItens(tab.getItensA().get(1));
+        azul.setItens(tab.getItensB().get(0));
+        azul.setItens(tab.getItensB().get(1));
+
+        azul.addPropertyChangeListener(jogGraficoAzul);
+        verde.addPropertyChangeListener(jogGraficoVerde);
+
         barraLateral = new BarraLateral(root);
+
         this.root = root;
+
         Random sortearInicio = new Random();
         vez = sortearInicio.nextInt(2);
-        pontosAzul = new Text(String.valueOf(0));
-        pontosAzul.setLayoutX(545);
-        pontosAzul.setLayoutY(66);
-        pontosAzul.setFont(Font.font("Verdana", 18));
-        pontosverde = new Text((String.valueOf(0)));
-        pontosverde.setLayoutX(345);
-        pontosverde.setLayoutY(66);
-        pontosverde.setFont(Font.font("Verdana", 18));
-        nomeAzul = new Text(azul.nome);
-        nomeAzul.setLayoutX(500);
-        nomeAzul.setLayoutY(85);
-        nomeAzul.setFont(Font.font("Verdana", 18));
-        nomeAzul.setFill(Color.WHITE);
-        nomeVerde = new Text(verde.nome);
-       nomeVerde.setLayoutX(300);
-       nomeVerde.setLayoutY(85);
-       nomeVerde.setFont(Font.font("Verdana", 18));
-       nomeVerde.setFill(Color.WHITE);
     }
 
     public void setTabuleiroGrafico(TabuleiroGrafico tabg){
@@ -98,16 +80,10 @@ public class Controle {
         else if(vez == 0){
             barraLateral.Esconder(verde);
             barraLateral.Desenhar(azul);
-            double progresso = getVezJogador().pontuacao/12.0;
-            barraPontuacao.setProgress(progresso);
-            pontosverde.setText(String.valueOf(getVezJogador().pontuacao));
             vez = 1;
         } else if(vez == 1){
             barraLateral.Esconder(azul);
             barraLateral.Desenhar(verde);
-            double progresso = getVezJogador().pontuacao/12.0;
-            pontosAzul.setText(String.valueOf(getVezJogador().pontuacao));
-            progressoAzul.setProgress(progresso);
             vez = 0;
         }
     }
@@ -207,13 +183,12 @@ public class Controle {
 
     public void IniciarJogo(){
         avisos.setText("O jogo começou! "+ getVezJogador().nome+", é a sua vez!");
-        root.getChildren().add(nomeVerde);
-        root.getChildren().add(nomeAzul);
+
+        jogGraficoVerde.Desenhar("Pedro");
+        jogGraficoAzul.Desenhar("Isa");
+
         root.getChildren().add(avisos);
-        root.getChildren().add(progressoAzul);
-        root.getChildren().add(barraPontuacao);
-        root.getChildren().add(pontosAzul);
-        root.getChildren().add(pontosverde);
+
         barraLateral.IniciarBarra();
         barraLateral.Desenhar(getVezJogador());
     }

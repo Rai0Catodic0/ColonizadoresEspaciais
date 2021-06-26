@@ -15,15 +15,18 @@ public class Tabuleiro {
 
     private Planeta[][] planetas;
     private int metal, municao, combustivel;
-    public Jogador azul;
-    public Jogador verde;
+    private List<Item> itensA;
+    private List<Item> itensV;
 
-    public Jogador getJogadorAzul(){
-        return azul;
+    public List<Item> getItensA(){
+        return itensA;
     }
-    public Jogador getJogadorVerde(){
-        return verde;
+
+    public List<Item> getItensB(){
+        return itensV;
     }
+
+
     public Tabuleiro() {
 
         //Instanciar Planetas
@@ -39,17 +42,12 @@ public class Tabuleiro {
             posicaoJogador2 = SortearPosicaoJogador();
         } while (posicaoJogador1[0]==posicaoJogador2[0] && posicaoJogador1[1]==posicaoJogador2[1]);
 
-        //Instanciar Jogadores em suas posições
-        Jogador jogador1 = new Jogador("a", "Jéssica");//posicaoJogador1[0], posicaoJogador1[1]
-        Jogador jogador2 = new Jogador("v", "Gabriel");//posicaoJogador2[0], posicaoJogador2[1]
-        this.azul = jogador1;
-        this.verde = jogador2;
 
-        //Instanciar Itens para jogadores
-        Item nave1 = new NaveColonizadora(posicaoJogador1[0], posicaoJogador1[1], jogador1.repre,this);
-        Item satelite1 = new Satelite(posicaoJogador1[0], posicaoJogador1[1], jogador1.repre,this);
-        Item nave2 = new NaveColonizadora(posicaoJogador2[0], posicaoJogador2[1], jogador2.repre,this);
-        Item satelite2 = new Satelite(posicaoJogador2[0], posicaoJogador2[1], jogador2.repre,this);
+        //Instanciar Itens iniciais
+        Item nave1 = new NaveColonizadora(posicaoJogador1[0], posicaoJogador1[1], "a",this);
+        Item satelite1 = new Satelite(posicaoJogador1[0], posicaoJogador1[1], "a",this);
+        Item nave2 = new NaveColonizadora(posicaoJogador2[0], posicaoJogador2[1], "v",this);
+        Item satelite2 = new Satelite(posicaoJogador2[0], posicaoJogador2[1], "v",this);
 
         //Colocar Itens no tabuleiro
         this.Inserir(nave1);
@@ -57,9 +55,14 @@ public class Tabuleiro {
         this.Inserir(satelite1);
         this.Inserir(satelite2);
 
-        //Atualizar itens dos jogadores
-        jogador1.setItens(nave1, satelite1);
-        jogador2.setItens(nave2, satelite2);
+        itensA = new ArrayList<>();
+        itensA.add(nave1);
+        itensA.add(satelite1);
+
+        itensV = new ArrayList<>();
+        itensV.add(nave2);
+        itensV.add(satelite2);
+
     }
 
     /**Funções auxiliares do Construtor**/

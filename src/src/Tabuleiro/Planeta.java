@@ -4,14 +4,20 @@ import Itens.Item;
 import Itens.NaveColonizadora;
 import Itens.NaveGuerra;
 import Itens.Satelite;
-import Recursos.*;
+import Recursos.Combustivel;
+import Recursos.Mineral;
+import Recursos.Municao;
+import Recursos.Recursos;
 import View.Tile;
 
-import java.util.Random;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Planeta  implements IPlaneta {
+    private PropertyChangeSupport support;
     int i;
     int j;
     int ipixels;
@@ -41,6 +47,7 @@ public class Planeta  implements IPlaneta {
     }
 
     public Planeta(int i, int j, int ipixels, int jpixels, int id, String  type) {
+        support = new PropertyChangeSupport(this);
         this.i = i;
         this.j = j;
         this.ipixels = ipixels;
@@ -52,9 +59,21 @@ public class Planeta  implements IPlaneta {
         this.imgpath = "images/planeta"+type+ 1;
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
+    }
+
+
     @Override
     public void Remover(Item item) {
+        List<Item> velhos = new ArrayList<>();
+        velhos.addAll(itens);
         this.itens.remove(item);
+        support.firePropertyChange("Mudança de itens",velhos,itens);
         if(this.tile!=null){
             this.tile.update(this.itens);
         }
@@ -125,7 +144,10 @@ public class Planeta  implements IPlaneta {
     @Override
     public boolean Inserir(Item item) {
         if(AvaliarSituacaoIntruso(item)==0){
+            List<Item> velhos = new ArrayList<>();
+            velhos.addAll(itens);
             this.itens.add(item);
+            support.firePropertyChange("Mudança de itens",velhos,itens);
             if(this.tile!=null){
                 this.tile.update(this.itens);
             }

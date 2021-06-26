@@ -9,10 +9,13 @@ import Recursos.Mineral;
 import Recursos.Municao;
 import Recursos.Recursos;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Jogador {
+    private PropertyChangeSupport support;
     public int pontuacao;
     public List<Item> itens;
     public List<Recursos> recursos;
@@ -20,6 +23,9 @@ public class Jogador {
     public String nome;
 
     public Jogador(String repre, String nome){
+
+        support = new PropertyChangeSupport(this);
+
         this.nome  = nome;
         this.pontuacao = 0;
         this.repre = repre;
@@ -46,9 +52,8 @@ public class Jogador {
         this.recursos.add(combustivel2);
     }
 
-    public void setItens(Item nave, Item satelite){
-        this.itens.add(nave);
-        this.itens.add(satelite);
+    public void setItens(Item item){
+        this.itens.add(item);
     }
 
         private  void remove(Class tipo){
@@ -57,6 +62,7 @@ public class Jogador {
                     break;
                 }
             }
+
         }
 
     public void RemoverRecurso(String item){
@@ -131,6 +137,7 @@ public class Jogador {
     }
 
     public void ExcluirItem(Object[] object){
+        int velho = pontuacao;
        for(int i = 1; i<object.length;i++){
            itens.remove(object[i]);
            if(object[i] instanceof NaveColonizadora){
@@ -141,9 +148,11 @@ public class Jogador {
                pontuacao-=3;
            }
        }
+       support.firePropertyChange("excluido",velho, pontuacao);
     }
 
     public void AdicionarItem(Object[] object){
+        int velho = pontuacao;
         for(int i = 1; i<object.length;i++){
             Item item = (Item) object[i];
             itens.add(item);
@@ -155,6 +164,7 @@ public class Jogador {
                 pontuacao+=3;
             }
         }
+        support.firePropertyChange("inserido",velho,pontuacao);
     }
 
     public boolean MoveuTodosItens(){
@@ -185,5 +195,13 @@ public class Jogador {
             }
         }
 
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
     }
 }

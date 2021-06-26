@@ -8,10 +8,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tile extends Pane {
+public class Tile extends Pane implements PropertyChangeListener {
 
     List<Item> items = new ArrayList<>();
     BotaoPlaneta botao;
@@ -113,5 +115,10 @@ public class Tile extends Pane {
         this.positions = positions;
         this.setLayoutX(positions[1]);
         this.setLayoutY(positions[0]);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+propertyChangeEvent);
     }
 }

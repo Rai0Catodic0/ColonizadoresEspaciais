@@ -40,6 +40,7 @@ public class App extends Application {
             for(int j = 0; j<5;j++){
                 if(planetas[i][j]!=null){
                     planetas[i][j].setTile(tabg.botoes.get(k));
+                    planetas[i][j].addPropertyChangeListener(tabg.botoes.get(k));
                     k++;
                 }
             }
