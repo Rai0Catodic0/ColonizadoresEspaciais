@@ -54,6 +54,7 @@ public class Jogador {
         private  void remove(Class tipo){
             for(Recursos r : recursos){
                 if(r.getClass() == tipo){
+                    recursos.remove(r);
                     break;
                 }
             }
@@ -66,6 +67,7 @@ public class Jogador {
                 this.remove(Combustivel.class);
                 break;
             case "naveGuerra":
+                System.out.println("GASTOU");
                 this.remove(Mineral.class);
                 this.remove(Combustivel.class);
                 this.remove(Municao.class);

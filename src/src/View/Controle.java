@@ -4,9 +4,7 @@ package View;
 import Itens.Item;
 import Tabuleiro.Jogador;
 import Tabuleiro.Tabuleiro;
-import excecoes.ItemAlreadyMoved;
-import excecoes.MovementBlockedByNaveColonizadora;
-import excecoes.MovementOUtOfReach;
+import excecoes.*;
 import javafx.scene.Group;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.paint.Color;
@@ -133,39 +131,38 @@ public class Controle {
         return azul;
     }
 
-    public boolean ValidarConstrucao(String objeto){
+    public void ValidarConstrucao(String objeto)throws RuntimeException{
         int [] status = getVezJogador().status();
         if(objeto.equals("naveGuerra") && status[0]>=1 && status[1]>=1 && status[2]>=1){
             getVezJogador().RemoverRecurso(objeto);
-            return true;
+            throw new NotEnoughRecursos("Nave de Guerra");
 
         } else if(objeto.equals("naveColonizadora") && status[0]>=1 && status[2]>=1){
             getVezJogador().RemoverRecurso(objeto);
-            return true;
+            throw new NotEnoughRecursos("Nave de Colonização");
         }else if(status[0]>=2 && status[1]>=1){
             getVezJogador().RemoverRecurso(objeto);
-            return true;
+            throw new NotEnoughRecursos("Satelite");
         }
-        return false;
     }
 
     public boolean Construir(int planetaClicado, String objeto){
-        boolean construir = ValidarConstrucao(objeto);
-        if(construir){
-            Item construido = tab.Construir(planetaClicado, objeto);
-            if(construido!=null){
-                getVezJogador().AdicionarItem(new Object[] {0,construido});
-                barraLateral.Esconder(getVezJogador());
-                barraLateral.Desenhar(getVezJogador());
-                TrocarVez();
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            avisos.setText(getVezJogador().nome+", você não pode construir aqui!");
+        try{
+            ValidarConstrucao(objeto);
+        }catch (NotEnoughRecursos notEnoughRecursos){
+            avisos.setText(getVezJogador().nome+","+notEnoughRecursos.getMessage());
+            System.out.println(notEnoughRecursos.getMessage());
             return false;
         }
+        System.out.println("FODaSE");
+        Item construido = tab.Construir(planetaClicado, objeto);
+        if(construido!=null){
+            getVezJogador().AdicionarItem(new Object[] {0,construido});
+            barraLateral.Esconder(getVezJogador());
+            barraLateral.Desenhar(getVezJogador());
+            TrocarVez();
+            return true;
+        }return false;
     }
 
     public void AtualizarJogador(){
