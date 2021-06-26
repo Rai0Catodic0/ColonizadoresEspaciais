@@ -44,6 +44,7 @@ public class Tile extends Pane implements PropertyChangeListener {
             @Override
             public void handle(ActionEvent actionEvent) {
                 //System.out.println("NESSE PLANETA TEMOS: "+items);
+                System.out.println("o id do planeta é :"+id);
                 barraSelecao.ClicouPlaneta(id, items);
             }
         });

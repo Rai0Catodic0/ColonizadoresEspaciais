@@ -128,6 +128,8 @@ public class Controle {
         if(numeroinicio ==2){
             numeroinicio = 0;
             tab.gerarRecurso();
+            azul.setRecursos();
+            verde.setRecursos();
         }
         if(!JogoRodando()){
             FinalizarJogo();
