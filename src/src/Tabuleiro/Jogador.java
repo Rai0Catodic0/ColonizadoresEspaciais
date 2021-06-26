@@ -87,6 +87,7 @@ public class Jogador {
     }
 
     public void setRecursos(){
+        int statusAnterior[] = status();
         for(Recursos recurso : itens.get(0).getColetados()){
             if(recurso.getDono()==this.repre && recurso !=null){
                 if(!this.recursos.contains(recurso)){
@@ -94,6 +95,7 @@ public class Jogador {
                 }
             }
         }
+        support.firePropertyChange("status",statusAnterior, status());
     }
     public int[] status(){
         //metal,municao,combustivel,satelite,guerra,colonizacao
