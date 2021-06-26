@@ -95,6 +95,18 @@ public class Jogador {
             }
         }
     }
+
+    public void setRecursosSorteados(){
+        int statusAnterior[] = status();
+        for(Recursos recurso : itens.get(0).getColetados()){
+            if(recurso.getDono()==this.repre && recurso !=null){
+                if(!this.recursos.contains(recurso)){
+                    this.recursos.add(recurso);
+                }
+            }
+        }
+        support.firePropertyChange("status",statusAnterior, status());
+    }
     public int[] status(){
         //metal,municao,combustivel,satelite,guerra,colonizacao
         setRecursos();
