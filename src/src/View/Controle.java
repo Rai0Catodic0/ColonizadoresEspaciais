@@ -135,14 +135,16 @@ public class Controle {
         int [] status = getVezJogador().status();
         if(objeto.equals("naveGuerra") && status[0]>=1 && status[1]>=1 && status[2]>=1){
             getVezJogador().RemoverRecurso(objeto);
-            throw new NotEnoughRecursos("Nave de Guerra");
-
+            return;
         } else if(objeto.equals("naveColonizadora") && status[0]>=1 && status[2]>=1){
             getVezJogador().RemoverRecurso(objeto);
-            throw new NotEnoughRecursos("Nave de Colonização");
+            return;
         }else if(status[0]>=2 && status[1]>=1){
             getVezJogador().RemoverRecurso(objeto);
-            throw new NotEnoughRecursos("Satelite");
+            return;
+        }else{
+            System.out.println("EROO AO VALIDAR");
+            throw new NotEnoughRecursos(objeto);
         }
     }
 

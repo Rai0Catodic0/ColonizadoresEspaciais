@@ -35,13 +35,13 @@ public class Tile extends Pane {
         try{
             botao = new BotaoPlaneta(imgpath, positions);
         }catch (RuntimeException e){
-            System.out.println("DEU RUIM "+e.getMessage());
+            //System.out.println("DEU RUIM "+e.getMessage());
             return;
         }
         botao.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println("NESSE PLANETA TEMOS: "+items);
+                //System.out.println("NESSE PLANETA TEMOS: "+items);
                 barraSelecao.ClicouPlaneta(id, items);
             }
         });
@@ -50,7 +50,7 @@ public class Tile extends Pane {
         try {
             this.Desenhar();
         }catch (Exception e){
-            System.out.println("DEU RUIM"+e.getMessage());
+            //System.out.println("DEU RUIM"+e.getMessage());
         }
     }
 
@@ -70,8 +70,8 @@ public class Tile extends Pane {
         int [] positionsX = {0,100,0};
         int [] positionsY = {0,100,100};
         for(Item item : this.items){
-            System.out.println("61"+item);
-            System.out.println(item.getImgPath().contains("imags"));
+            //System.out.println("61"+item);
+            //System.out.println(item.getImgPath().contains("imags"));
             try {
                 images[i] = new ImageView(new Image(item.getImgPath()));
             } catch (Exception e) {
@@ -91,7 +91,7 @@ public class Tile extends Pane {
         try {
             this.Desenhar();
         }catch (RuntimeException e){
-            System.out.println("DEU RUIM"+e.getMessage());
+            //System.out.println("DEU RUIM"+e.getMessage());
         }
 
     }
