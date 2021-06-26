@@ -73,7 +73,7 @@ public class Jogador {
             if(recurso.getDono()==this.repre && recurso !=null){
                 if(!this.recursos.contains(recurso)){
                     this.recursos.add(recurso);
-                    System.out.println(recurso+"JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ");
+                    //System.out.println(recurso+"JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ");
                 }
             }
         }
