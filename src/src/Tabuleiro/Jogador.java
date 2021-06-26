@@ -21,12 +21,12 @@ public class Jogador {
     public List<Recursos> recursos;
     public String repre;
     public String nome;
+    boolean vez = false;
 
-    public Jogador(String repre, String nome){
+    public Jogador(String repre){
 
         support = new PropertyChangeSupport(this);
 
-        this.nome  = nome;
         this.pontuacao = 0;
         this.repre = repre;
         this.itens = new ArrayList<>();
@@ -56,6 +56,7 @@ public class Jogador {
         this.itens.add(item);
     }
 
+
         private  void remove(Class tipo){
             for(Recursos r : recursos){
                 if(r.getClass() == tipo){
@@ -82,6 +83,7 @@ public class Jogador {
                 this.remove(Municao.class);
         }
     }
+
     public void setRecursos(){
         for(Recursos recurso : itens.get(0).getColetados()){
             if(recurso.getDono()==this.repre && recurso !=null){
@@ -137,7 +139,8 @@ public class Jogador {
     }
 
     public void ExcluirItem(Object[] object){
-        int velho = pontuacao;
+        int statusAnterior[] = status();
+        int pontuacaoAnterior = pontuacao;
        for(int i = 1; i<object.length;i++){
            itens.remove(object[i]);
            if(object[i] instanceof NaveColonizadora){
@@ -148,11 +151,13 @@ public class Jogador {
                pontuacao-=3;
            }
        }
-       support.firePropertyChange("excluido",velho, pontuacao);
+       support.firePropertyChange("status",statusAnterior,status());
+       support.firePropertyChange("pontuacao",pontuacaoAnterior, pontuacao);
     }
 
     public void AdicionarItem(Object[] object){
-        int velho = pontuacao;
+        int statusAnterior[] = status();
+        int pontuacaoAnterior = pontuacao;
         for(int i = 1; i<object.length;i++){
             Item item = (Item) object[i];
             itens.add(item);
@@ -164,7 +169,8 @@ public class Jogador {
                 pontuacao+=3;
             }
         }
-        support.firePropertyChange("inserido",velho,pontuacao);
+        support.firePropertyChange("status",statusAnterior,status());
+        support.firePropertyChange("pontuacao",pontuacaoAnterior,pontuacao);
     }
 
     public boolean MoveuTodosItens(){
@@ -195,6 +201,22 @@ public class Jogador {
             }
         }
 
+    }
+
+    public void TrocarVez(){
+        vez = !vez;
+        support.firePropertyChange("vez",!vez,vez);
+    }
+
+    public void IniciarJogador(){
+        support.firePropertyChange("iniciar",true,false);
+    }
+
+    public void setNome(String nome){
+        support.firePropertyChange("nome",this.nome,nome);
+        support.firePropertyChange("pontuacao",0,this.pontuacao);
+        support.firePropertyChange("status", new int[] {0,0,0,0,0,0},status());
+        this.nome = nome;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {

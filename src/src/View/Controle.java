@@ -5,20 +5,25 @@ import Itens.Item;
 import Tabuleiro.Jogador;
 import Tabuleiro.Tabuleiro;
 import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.util.Random;
+
+import Tabuleiro.Planeta;
 
 public class Controle {
     private Tabuleiro tab;
     private Jogador verde;
     private Jogador azul;
-    private BarraLateral barraLateral;
     private boolean construiu = false;
     private boolean passouVez = false;
-    private Group root;
+    private Group rootJogo;
     private int vez;
     private TabuleiroGrafico tabg;
     private int numeroinicio;
@@ -27,9 +32,52 @@ public class Controle {
     //0 = verde
     private JogadorGrafico jogGraficoAzul;
     private JogadorGrafico jogGraficoVerde;
+    private Stage stage;
+    private Scene cenaInicial;
+    private Scene cenaFinal;
+    private Scene cenaJogo;
 
 
-    public Controle(Tabuleiro tab, Group root) {
+    public Controle(Stage stage) {
+
+        stage.setTitle("Conquistadores do Espaço");
+        this.stage=stage;
+
+         SetupScene rootInicial = new SetupScene();
+         cenaInicial = new Scene(rootInicial,2399,1199);
+         rootInicial.setControle(this);
+
+        Group rootJogo = new Group();
+        Group sub = new Group();
+        cenaJogo = new Scene(rootJogo,2399,1199);
+
+        Image background = new Image("images/background.png");
+        ImageView backgroundView = new ImageView(background);
+        rootJogo.getChildren().add(backgroundView);
+        rootJogo.getChildren().add(sub);
+
+
+        tab = new Tabuleiro();
+        BarraSelecao barraSelecao  = new BarraSelecao(rootJogo, this);
+        tabg = new TabuleiroGrafico(rootJogo, barraSelecao);
+
+        //Linka Tile com planeta
+        Planeta planetas[][] = tab.getPlanetas();
+        int k = 0;
+        for(int i = 0; i<5; i++){
+            for(int j = 0; j<5;j++){
+                if(planetas[i][j]!=null){
+                    planetas[i][j].setTile(tabg.botoes.get(k));
+                    planetas[i][j].addPropertyChangeListener(tabg.botoes.get(k));
+                    k++;
+                }
+            }
+        }
+
+        barraSelecao.IniciarBarra();
+        tabg.Desenhar();
+
+        stage.setScene(cenaInicial);
 
         avisos = new Text("");
         avisos.setLayoutX(700);
@@ -38,54 +86,85 @@ public class Controle {
         avisos.setFill(Color.WHITE);
 
 
-        jogGraficoAzul = new JogadorGrafico(root,"blue",500,50);
-        jogGraficoVerde = new JogadorGrafico(root,"green",300,50);
+        jogGraficoAzul = new JogadorGrafico(rootJogo,"blue",500,50);
+        jogGraficoVerde = new JogadorGrafico(rootJogo,"green",300,50);
 
-        this.tab = tab;
+
         this.numeroinicio = 0;
 
-        azul = new Jogador("a","Isa");
-        verde = new Jogador("v", "Pedro");
+        azul = new Jogador("a");
+        verde = new Jogador("v");
 
         verde.setItens(tab.getItensA().get(0));
         verde.setItens(tab.getItensA().get(1));
         azul.setItens(tab.getItensB().get(0));
         azul.setItens(tab.getItensB().get(1));
 
+        azul.pontuacao = 9;
+        verde.pontuacao = 9;
+
         azul.addPropertyChangeListener(jogGraficoAzul);
         verde.addPropertyChangeListener(jogGraficoVerde);
 
-        barraLateral = new BarraLateral(root);
 
-        this.root = root;
+        this.rootJogo = rootJogo;
 
         Random sortearInicio = new Random();
+
         vez = sortearInicio.nextInt(2);
+        if(vez==1){
+            azul.TrocarVez();
+        } else {
+            verde.TrocarVez();
+        }
+
+        stage.show();
     }
 
-    public void setTabuleiroGrafico(TabuleiroGrafico tabg){
-        this.tabg = tabg;
-    }
 
     public void TrocarVez(){
         getVezJogador().ResetarMovimentos();
+        azul.TrocarVez();
+        verde.TrocarVez();
         numeroinicio ++;
         if(numeroinicio ==2){
             numeroinicio = 0;
             tab.gerarRecurso();
         }
         if(!JogoRodando()){
-            tabg.Esconder();
+            FinalizarJogo();
         }
         else if(vez == 0){
-            barraLateral.Esconder(verde);
-            barraLateral.Desenhar(azul);
             vez = 1;
         } else if(vez == 1){
-            barraLateral.Esconder(azul);
-            barraLateral.Desenhar(verde);
             vez = 0;
         }
+    }
+
+    public void FinalizarJogo(){
+
+        String corVencedor;
+        String nomeVencedor;
+        String nomePerdedor;
+        int pontosVencedor;
+        int pontosPerdedor;
+
+        if(azul.getQtdItens()<=0 || azul.getPontuacao()>=12 ){
+            corVencedor = azul.repre;
+            nomeVencedor = azul.nome;
+            nomePerdedor = verde.nome;
+            pontosVencedor = azul.getPontuacao();
+            pontosPerdedor = verde.getPontuacao();
+        } else {
+            corVencedor = verde.repre;
+            nomeVencedor = verde.nome;
+            nomePerdedor = azul.nome;
+            pontosVencedor = verde.getPontuacao();
+            pontosPerdedor = azul.getPontuacao();
+        }
+
+        Scene cenaFinal = new Scene(new CenaFinal(corVencedor, nomeVencedor, nomePerdedor, pontosVencedor, pontosPerdedor),2399,1199);
+        stage.setScene(cenaFinal);
     }
 
     public int getVez(){
@@ -128,8 +207,6 @@ public class Controle {
             Item construido = tab.Construir(planetaClicado, objeto);
             if(construido!=null){
                 getVezJogador().AdicionarItem(new Object[] {0,construido});
-                barraLateral.Esconder(getVezJogador());
-                barraLateral.Desenhar(getVezJogador());
                 TrocarVez();
                 return true;
             } else {
@@ -141,23 +218,16 @@ public class Controle {
         }
     }
 
-    public void AtualizarJogador(){
-
-    }
 
     public boolean Mover(int planetaClicado, int planetaRecebeAcao, String objeto){
         avisos.setText("");
         Object[] resultado = tab.Mover(planetaClicado, planetaRecebeAcao, objeto);
         if(resultado[0].equals(-1)){
             getVezJogador().ExcluirItem(resultado);
-            barraLateral.Esconder(getVezJogador());
-            barraLateral.Desenhar(getVezJogador());
             avisos.setText(getVezJogador().nome+", você perdeu essa batalha! Boa defesa, "+getVezProximoJogador().nome);
         }
         else if(resultado[0].equals(-2)){
             getVezProximoJogador().ExcluirItem(resultado);
-            barraLateral.Esconder(getVezJogador());
-            barraLateral.Desenhar(getVezJogador());
             avisos.setText(getVezJogador().nome+", você ganhou essa batalha!");
         }
         if(resultado[0].equals(1)){
@@ -168,7 +238,7 @@ public class Controle {
             TrocarVez();
             return true;
         } else {
-            avisos.setText("Movimento bem sucedido, "+getVezJogador()+"! Você pode mover o resto dos seus itens ou construir!");
+            avisos.setText("Movimento bem sucedido, "+getVezJogador().nome+"! Você pode mover o resto dos seus itens ou construir!");
             return true;
         }
 
@@ -183,14 +253,19 @@ public class Controle {
 
     public void IniciarJogo(){
         avisos.setText("O jogo começou! "+ getVezJogador().nome+", é a sua vez!");
-
-        jogGraficoVerde.Desenhar("Pedro");
-        jogGraficoAzul.Desenhar("Isa");
-
-        root.getChildren().add(avisos);
-
-        barraLateral.IniciarBarra();
-        barraLateral.Desenhar(getVezJogador());
+       azul.IniciarJogador();
+       verde.IniciarJogador();
+       rootJogo.getChildren().add(avisos);
+       stage.setScene(cenaJogo);
     }
+
+    public void setAzulNome(String nome){
+        azul.setNome(nome);
+    }
+
+    public void setVerdeNome(String nome){
+        verde.setNome(nome);
+    }
+
 
 }

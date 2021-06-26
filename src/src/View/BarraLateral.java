@@ -1,6 +1,5 @@
 package View;
 
-import Tabuleiro.Jogador;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,19 +19,16 @@ public class BarraLateral {
      Text warStarship;
      Text colonizationStarship;
      Text satelite;
-     ImageView imageViewWarStarshipVerde;
-     ImageView imageViewWarStarshipAzul;
-     ImageView imageViewColonizationStarshipAzul;
-     ImageView imageViewColonizationStarshipVerde;
-     ImageView imageViewSateliteAzul;
-     ImageView imageViewSateliteVerde;
+     ImageView imageViewWarStarship;
+     ImageView imageViewColonizationStarship;
+     ImageView imageViewSatelite;
      ImageView imageViewFuel;
      ImageView imageViewBullet;
      ImageView imageViewMetal;
 
 
 
-    public BarraLateral(Group root){
+    public BarraLateral(Group root, String cor){
         this.root = root;
 
         //Quadrado
@@ -97,38 +93,25 @@ public class BarraLateral {
         //FIXME fazer o getter pro repre do jogador
         // guerra
 
-        Image warStarshipImageAzul = new Image("images/naveguerraa.png");
-        imageViewWarStarshipAzul = new ImageView(warStarshipImageAzul);
-        imageViewWarStarshipAzul.setX(5);
-        imageViewWarStarshipAzul.setY(139.5);
-
-        Image warStarshipImageVerde = new Image("images/naveguerrav.png");
-        imageViewWarStarshipVerde = new ImageView(warStarshipImageVerde);
-        imageViewWarStarshipVerde.setX(5);
-        imageViewWarStarshipVerde.setY(139.5);
+        System.out.println("images/naveguerra"+cor+".png");
+        Image warStarshipImage = new Image("images/naveguerra"+cor+".png");
+        imageViewWarStarship = new ImageView(warStarshipImage);
+        imageViewWarStarship.setX(5);
+        imageViewWarStarship.setY(139.5);
 
 
         // colonizadora
-        Image colonizationStarshipImageAzul = new Image("images/navecolonizadoraa.png");
-        imageViewColonizationStarshipAzul = new ImageView(colonizationStarshipImageAzul);
-        imageViewColonizationStarshipAzul.setX(5);
-        imageViewColonizationStarshipAzul.setY(200.5);
-
-        Image colonizationStarshipImageVerde = new Image("images/navecolonizadorav.png");
-        imageViewColonizationStarshipVerde = new ImageView(colonizationStarshipImageVerde);
-        imageViewColonizationStarshipVerde.setX(5);
-        imageViewColonizationStarshipVerde.setY(200.5);
+        Image colonizationStarshipImage = new Image("images/navecolonizadora"+cor+".png");
+        imageViewColonizationStarship = new ImageView(colonizationStarshipImage);
+        imageViewColonizationStarship.setX(5);
+        imageViewColonizationStarship.setY(200.5);
 
         // satelite
-        Image sateliteImageAzul = new Image("images/satelitea.png");
-        imageViewSateliteAzul = new ImageView(sateliteImageAzul);
-        imageViewSateliteAzul.setX(5);
-        imageViewSateliteAzul.setY(261.5);
+        Image sateliteImage = new Image("images/satelite"+cor+".png");
+        imageViewSatelite = new ImageView(sateliteImage);
+        imageViewSatelite.setX(5);
+        imageViewSatelite.setY(261.5);
 
-        Image sateliteImageVerde = new Image("images/satelitev.png");
-        imageViewSateliteVerde = new ImageView(sateliteImageVerde);
-        imageViewSateliteVerde.setX(5);
-        imageViewSateliteVerde.setY(261.5);
 
         Image fuelImage = new Image("images/combustivel.png");
         imageViewFuel = new ImageView(fuelImage);
@@ -147,61 +130,45 @@ public class BarraLateral {
         imageViewMetal.setY(444.5);
     }
 
-    public void IniciarBarra(){               //desenha o triângulo e as imagnes de recusos apenas uma vez quando inicia
+
+    public void Desenhar(){
         root.getChildren().add(lateralBar);
+        root.getChildren().add(metal);
+        root.getChildren().add(fuel);
+        root.getChildren().add(bullet);
+        root.getChildren().add(warStarship);
+        root.getChildren().add(colonizationStarship);
+        root.getChildren().add(satelite);
+        root.getChildren().add(imageViewColonizationStarship);
+        root.getChildren().add(imageViewWarStarship);
+        root.getChildren().add(imageViewSatelite);
+        root.getChildren().add(imageViewMetal);
         root.getChildren().add(imageViewBullet);
         root.getChildren().add(imageViewFuel);
-        root.getChildren().add(imageViewMetal);
     }
 
-    public void Desenhar(Jogador jogador){
-        int[] status = jogador.status();
-
+    public void update(int[] status) {
         metal.setText(String.valueOf(status[0]));
-        root.getChildren().add(metal);
-
         fuel.setText(String.valueOf(status[2]));
-        root.getChildren().add(fuel);
-
         bullet.setText(String.valueOf(status[1]));
-        root.getChildren().add(bullet);
-
         warStarship.setText(String.valueOf(status[4]));
-        root.getChildren().add(warStarship);
-
         colonizationStarship.setText(String.valueOf(status[5]));
-        root.getChildren().add(colonizationStarship);
-
         satelite.setText(String.valueOf(status[3]));
-        root.getChildren().add(satelite);
-
-        if(jogador.repre.equals("a")){
-            root.getChildren().add(imageViewColonizationStarshipAzul);
-            root.getChildren().add(imageViewWarStarshipAzul);
-            root.getChildren().add(imageViewSateliteAzul);
-        } else if (jogador.repre.equals("v")){
-            root.getChildren().add(imageViewColonizationStarshipVerde);
-            root.getChildren().add(imageViewWarStarshipVerde);
-            root.getChildren().add(imageViewSateliteVerde);
-        }
     }
 
-    public void Esconder(Jogador jogador){
+    public void Esconder(){
+        root.getChildren().remove(lateralBar);
         root.getChildren().remove(metal);
         root.getChildren().remove(fuel);
         root.getChildren().remove(bullet);
         root.getChildren().remove(warStarship);
         root.getChildren().remove(colonizationStarship);
         root.getChildren().remove(satelite);
-        if(jogador.repre.equals("a")){
-            root.getChildren().remove(imageViewColonizationStarshipAzul);
-            root.getChildren().remove(imageViewWarStarshipAzul);
-            root.getChildren().remove(imageViewSateliteAzul);
-        } else if (jogador.repre.equals("v")){
-            root.getChildren().remove(imageViewColonizationStarshipVerde);
-            root.getChildren().remove(imageViewWarStarshipVerde);
-            root.getChildren().remove(imageViewSateliteVerde);
-        }
-
+        root.getChildren().remove(imageViewColonizationStarship);
+        root.getChildren().remove(imageViewWarStarship);
+        root.getChildren().remove(imageViewSatelite);
+        root.getChildren().remove(imageViewMetal);
+        root.getChildren().remove(imageViewBullet);
+        root.getChildren().remove(imageViewFuel);
     }
 }

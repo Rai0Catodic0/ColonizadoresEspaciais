@@ -15,6 +15,8 @@ public class JogadorGrafico implements PropertyChangeListener {
     private Text nome;
     private Text pontos;
     private Group root;
+    BarraLateral barraLateral;
+    boolean vez = false;
 
     public JogadorGrafico(Group root, String cor, int x, int y){
         this.barraPontuacao = new ProgressBar(0);
@@ -33,13 +35,19 @@ public class JogadorGrafico implements PropertyChangeListener {
         this.nome.setFont(Font.font("Verdana", 18));
         this.nome.setFill(Color.WHITE);
 
+        if(cor.equals("blue")){
+            barraLateral = new BarraLateral(root, "a");
+        } else {
+            barraLateral = new BarraLateral(root, "v");
+        }
+
+
         this.root = root;
     }
 
-    public void Desenhar(String nome){
-        this.nome.setText(nome);
+    public void Desenhar(){
         root.getChildren().add(barraPontuacao);
-        root.getChildren().add(this.nome);
+        root.getChildren().add(nome);
         root.getChildren().add(pontos);
     }
 
@@ -49,8 +57,30 @@ public class JogadorGrafico implements PropertyChangeListener {
         this.pontos.setText(String.valueOf(pontos));
     }
 
+    public void TrocarVez(){
+        vez = !vez;
+        if(vez){
+            barraLateral.Desenhar();
+        } else {
+            barraLateral.Esconder();
+        }
+    }
+
+
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-        update((int) propertyChangeEvent.getNewValue());
+        if(propertyChangeEvent.getPropertyName().equals("pontuacao")){
+            update((int) propertyChangeEvent.getNewValue());
+        } else if (propertyChangeEvent.getPropertyName().equals("status")){
+            int status[] = (int[]) propertyChangeEvent.getNewValue();
+            barraLateral.update(status);
+        } else if(propertyChangeEvent.getPropertyName().equals("vez")){
+            TrocarVez();
+        } else if(propertyChangeEvent.getPropertyName().equals("nome")){
+            nome.setText((String) propertyChangeEvent.getNewValue());
+        } else if(propertyChangeEvent.getPropertyName().equals("iniciar")){
+        Desenhar();
+    }
+
     }
 }

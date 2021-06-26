@@ -1,5 +1,7 @@
 package View;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -18,6 +20,7 @@ public class SetupScene extends Group {
     Button btnSubmit;
     ImageView backgroundView;
     Text message;
+    Controle controle;
 
     SetupScene(){
         super();
@@ -49,6 +52,14 @@ public class SetupScene extends Group {
         this.btnSubmit.setLayoutX(930);
         this.btnSubmit.setMinHeight(50);
         this.btnSubmit.setMinWidth(100);
+        this.btnSubmit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+               controle.setAzulNome(nomePlayer1.getText());
+               controle.setVerdeNome(nomePlayer2.getText());
+               controle.IniciarJogo();
+            }
+        });
 
 //background image
 Image background = new Image("images/backgroundsetUp.jpeg");
@@ -73,6 +84,10 @@ this.backgroundView = new ImageView(background);
         this.getChildren().remove(this.nomePlayer2);
         this.getChildren().remove(this.btnSubmit);
 
+    }
+
+    public void setControle(Controle controle){
+        this.controle = controle;
     }
 
     public Button getBtnSubmit(){
