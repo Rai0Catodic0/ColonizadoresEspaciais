@@ -8,7 +8,6 @@ import Recursos.Recursos;
 import excecoes.ItemAlreadyMoved;
 import excecoes.MovementBlockedByNaveColonizadora;
 import excecoes.MovementOUtOfReach;
-import excecoes.invalidMovement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -232,6 +231,7 @@ public class Tabuleiro {
             origem.Remover(itemMovido);
             destino.Inserir(itemMovido);
             itemMovido.movido = true;
+            System.out.println("aquiii na mudança 1");
             return new Object[] {movimentoValido};
         }
 
@@ -241,6 +241,7 @@ public class Tabuleiro {
                 throw  new MovementBlockedByNaveColonizadora();
             }
             itemMovido.movido = true;
+            System.out.println("aquiii na mudança");
             Object resultado[] = destino.Lutar(itemMovido);
             if(resultado[0].equals(-1)){
                 origem.Remover(itemMovido);

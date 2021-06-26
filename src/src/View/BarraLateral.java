@@ -93,7 +93,6 @@ public class BarraLateral {
         //FIXME fazer o getter pro repre do jogador
         // guerra
 
-        System.out.println("images/naveguerra"+cor+".png");
         Image warStarshipImage = new Image("images/naveguerra"+cor+".png");
         imageViewWarStarship = new ImageView(warStarshipImage);
         imageViewWarStarship.setX(5);

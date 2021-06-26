@@ -89,10 +89,10 @@ public class Controle {
         azul = new Jogador("a");
         verde = new Jogador("v");
 
-        verde.setItens(tab.getItensA().get(0));
-        verde.setItens(tab.getItensA().get(1));
-        azul.setItens(tab.getItensB().get(0));
-        azul.setItens(tab.getItensB().get(1));
+        verde.setItens(tab.getItensB().get(0));
+        verde.setItens(tab.getItensB().get(1));
+        azul.setItens(tab.getItensA().get(0));
+        azul.setItens(tab.getItensA().get(1));
 
         azul.pontuacao = 4;
         verde.pontuacao = 4;
@@ -208,7 +208,6 @@ public class Controle {
             System.out.println(notEnoughRecursos.getMessage());
             return false;
         }
-        System.out.println("FODaSE");
         Item construido = tab.Construir(planetaClicado, objeto);
         if(construido!=null){
             getVezJogador().AdicionarItem(new Object[] {0,construido});
@@ -242,6 +241,7 @@ public class Controle {
             getVezProximoJogador().ExcluirItem(resultado);
             avisos.setText(getVezJogador().nome+", você ganhou essa batalha!");
         }
+        System.out.println("MOVEU TODOS: "+getVezJogador().MoveuTodosItens()+getVezJogador().nome);
         if(resultado[0].equals(1)){
             avisos.setText("Movimento Inválido. Mova para planetas vizinhos, siga as linhas!");
             return false;

@@ -182,6 +182,7 @@ public class Jogador {
             String s = i.getType();
          if(!(i instanceof Satelite)){
              totalItens++;
+             System.out.println("aqui vamos ver o status do item movido: "+i.movido);
              if(i.movido){
                  itensMovidos++;
              }
