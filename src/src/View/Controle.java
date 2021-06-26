@@ -3,6 +3,7 @@ package View;
 
 import Itens.Item;
 import Tabuleiro.Jogador;
+import Tabuleiro.Planeta;
 import Tabuleiro.Tabuleiro;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -15,8 +16,6 @@ import javafx.stage.Stage;
 
 import java.util.Random;
 
-import Tabuleiro.Planeta;
-
 public class Controle {
     private Tabuleiro tab;
     private Jogador verde;
@@ -25,16 +24,12 @@ public class Controle {
     private boolean passouVez = false;
     private Group rootJogo;
     private int vez;
-    private TabuleiroGrafico tabg;
     private int numeroinicio;
     private Text avisos;
     //1 = azul
     //0 = verde
-    private JogadorGrafico jogGraficoAzul;
-    private JogadorGrafico jogGraficoVerde;
     private Stage stage;
     private Scene cenaInicial;
-    private Scene cenaFinal;
     private Scene cenaJogo;
 
 
@@ -59,7 +54,7 @@ public class Controle {
 
         tab = new Tabuleiro();
         BarraSelecao barraSelecao  = new BarraSelecao(rootJogo, this);
-        tabg = new TabuleiroGrafico(rootJogo, barraSelecao);
+        TabuleiroGrafico tabg = new TabuleiroGrafico(rootJogo, barraSelecao);
 
         //Linka Tile com planeta
         Planeta planetas[][] = tab.getPlanetas();
@@ -85,10 +80,8 @@ public class Controle {
         avisos.setFont(Font.font("Verdana", 20));
         avisos.setFill(Color.WHITE);
 
-
-        jogGraficoAzul = new JogadorGrafico(rootJogo,"blue",500,50);
-        jogGraficoVerde = new JogadorGrafico(rootJogo,"green",300,50);
-
+        JogadorGrafico jogGraficoAzul = new JogadorGrafico(rootJogo,"blue",500,50);
+        JogadorGrafico jogGraficoVerde = new JogadorGrafico(rootJogo,"green",300,50);
 
         this.numeroinicio = 0;
 
@@ -100,12 +93,11 @@ public class Controle {
         azul.setItens(tab.getItensB().get(0));
         azul.setItens(tab.getItensB().get(1));
 
-        azul.pontuacao = 9;
-        verde.pontuacao = 9;
+        azul.pontuacao = 4;
+        verde.pontuacao = 4;
 
         azul.addPropertyChangeListener(jogGraficoAzul);
         verde.addPropertyChangeListener(jogGraficoVerde);
-
 
         this.rootJogo = rootJogo;
 
@@ -119,6 +111,11 @@ public class Controle {
         }
 
         stage.show();
+    }
+
+    public void PassarVez(){
+        avisos.setText(getVezJogador().nome+" passou a vez! Agora é a vez de "+getVezProximoJogador().nome);
+        TrocarVez();
     }
 
 

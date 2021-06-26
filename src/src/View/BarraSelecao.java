@@ -71,7 +71,7 @@ public class BarraSelecao {
         botaoPassarVez.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                controle.TrocarVez();
+                controle.PassarVez();
                 Esconder();
             }
         });
