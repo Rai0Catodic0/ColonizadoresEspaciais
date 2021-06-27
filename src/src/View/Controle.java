@@ -5,7 +5,10 @@ import Itens.Item;
 import Tabuleiro.Jogador;
 import Tabuleiro.Planeta;
 import Tabuleiro.Tabuleiro;
-import excecoes.*;
+import excecoes.ItemAlreadyMoved;
+import excecoes.MovementBlockedByNaveColonizadora;
+import excecoes.MovementOUtOfReach;
+import excecoes.NotEnoughRecursos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -15,7 +18,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class Controle {
@@ -70,7 +72,7 @@ public class Controle {
                 }
             }
         }
-
+        Instruncoes instruncoes = new Instruncoes(rootJogo);
         barraSelecao.IniciarBarra();
         tabg.Desenhar();
 
@@ -95,8 +97,8 @@ public class Controle {
         azul.setItens(tab.getItensA().get(0));
         azul.setItens(tab.getItensA().get(1));
 
-        azul.pontuacao = 4;
-        verde.pontuacao = 4;
+        azul.pontuacao = 11;
+        verde.pontuacao = 11;
 
         azul.addPropertyChangeListener(jogGraficoAzul);
         verde.addPropertyChangeListener(jogGraficoVerde);
