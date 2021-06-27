@@ -97,8 +97,8 @@ public class Controle {
         azul.setItens(tab.getItensA().get(0));
         azul.setItens(tab.getItensA().get(1));
 
-        azul.pontuacao = 11;
-        verde.pontuacao = 11;
+        azul.pontuacao = 4;
+        verde.pontuacao = 4;
 
         azul.addPropertyChangeListener(jogGraficoAzul);
         verde.addPropertyChangeListener(jogGraficoVerde);

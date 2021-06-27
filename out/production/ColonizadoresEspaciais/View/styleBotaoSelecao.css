@@ -1,4 +1,5 @@
 .button{
+    -fx-width: 200px;
     -fx-background-color: #808080;
     -fx-font-weight: bold;
 }
