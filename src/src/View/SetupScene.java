@@ -29,13 +29,13 @@ public class SetupScene extends Group {
         this.btnSubmit = new Button("Start");
         this.nomePlayer1 = new TextField("Player 1 name ");
         this.nomePlayer2 = new TextField("Player 2 name");
-        this.message = new Text("Prepare-se Para colonizar");
+        this.message = new Text("PREPARE-SE PARA COLONIZAR!");
 
         //message Style
         this.message.setFont(Font.font(30));
-        this.message.setLayoutX(790);
-        this.message.setLayoutY(300);
-        this.message.setFill(Color.MEDIUMPURPLE);
+        this.message.setLayoutX(740);
+        this.message.setLayoutY(210);
+        this.message.setFill(Color.WHITE);
 
         //textfield style
         this.nomePlayer1.setLayoutY(400);
@@ -55,14 +55,14 @@ public class SetupScene extends Group {
         this.btnSubmit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-               controle.setAzulNome(nomePlayer1.getText());
-               controle.setVerdeNome(nomePlayer2.getText());
+               controle.setAzulNome(nomePlayer2.getText());
+               controle.setVerdeNome(nomePlayer1.getText());
                controle.IniciarJogo();
             }
         });
 
 //background image
-Image background = new Image("images/backgroundsetUp.jpeg");
+Image background = new Image("images/fundo.jpg");
 this.backgroundView = new ImageView(background);
 
 

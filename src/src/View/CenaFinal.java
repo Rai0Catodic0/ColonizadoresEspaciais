@@ -11,15 +11,28 @@ public class CenaFinal extends Group {
 
     CenaFinal(String corVencedor, String nomeVencedor, String nomePerdedor, int pontosVencedor, int pontosPerdedor){
         super();
-        Image background = new Image("images/backgroundsetUp.jpeg");
+        Image background;
+        if(corVencedor.equals("a")){
+            background = new Image("images/azulvence.jpg");
+        } else {
+            background = new Image("images/verdevence.jpg");
+        }
         ImageView backgroundView = new ImageView(background);
-        Text mensagem = new Text(nomeVencedor+" ganhou com "+pontosVencedor+" pontos! Parabéns astronauta! "+nomePerdedor+", não fique triste, você fez "+pontosPerdedor+" pontos, na próxima você consegue mais!");
-        mensagem.setFont(Font.font("Verdana", 20));
-        mensagem.setFill(Color.AQUA);
-        mensagem.setLayoutX(0);
-        mensagem.setLayoutY(300);
+        Text mensagem = new Text("Parabéns, "+nomeVencedor+"! Você ganhou com "+pontosVencedor+" pontos!");
+        mensagem.setFont(Font.font("Verdana", 30));
+        mensagem.setFill(Color.WHITE);
+        mensagem.setLayoutX(650);
+        mensagem.setLayoutY(100);
+
+        Text mensagemFinal = new Text(nomePerdedor+", você fez "+pontosPerdedor+" pontos. Não fique triste, na próxima você faz mais!");
+        mensagemFinal.setFont(Font.font("Verdana", 20));
+        mensagemFinal.setFill(Color.WHITE);
+        mensagemFinal.setLayoutX(670);
+        mensagemFinal.setLayoutY(150);
+
         this.getChildren().add(backgroundView);
         this.getChildren().add(mensagem);
+        this.getChildren().add(mensagemFinal);
     }
 
 }
