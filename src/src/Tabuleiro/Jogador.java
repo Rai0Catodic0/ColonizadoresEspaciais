@@ -32,25 +32,18 @@ public class Jogador {
         this.repre = repre;
         this.itens = new ArrayList<>();
         this.recursos = new ArrayList<>();
-        Recursos metal = new Mineral();
-        Recursos municao = new Municao();
-        Recursos combustivel = new Combustivel();
-        metal.setDono(this.repre);
-        municao.setDono(this.repre);
-        combustivel.setDono(this.repre);
-        this.recursos.add(metal);
-        this.recursos.add(municao);
-        this.recursos.add(combustivel);
-
-        Recursos metal2 = new Mineral();
-        Recursos municao2 = new Municao();
-        Recursos combustivel2 = new Combustivel();
-        metal2.setDono(this.repre);
-        municao2.setDono(this.repre);
-        combustivel2.setDono(this.repre);
-        this.recursos.add(metal2);
-        this.recursos.add(municao2);
-        this.recursos.add(combustivel2);
+        Recursos a = new Municao();
+        Recursos b = new Mineral();
+        Recursos c = new Combustivel();
+        Recursos d = new Mineral();
+        a.setDono(this.repre);
+        b.setDono(this.repre);
+        c.setDono(this.repre);
+        d.setDono(this.repre);
+        this.recursos.add(a);
+        this.recursos.add(b);
+        this.recursos.add(c);
+        this.recursos.add(d);
     }
 
     public void setItens(Item item){
@@ -62,7 +55,7 @@ public class Jogador {
             for(Recursos r : recursos){
                 if(r.getClass() == tipo){
                     recursos.remove(r);
-
+                    itens.get(0).getColetados().remove(r);
                     break;
                 }
             }
@@ -89,26 +82,28 @@ public class Jogador {
     }
 
     public void setRecursos(){
-        for(Recursos recurso : itens.get(0).getColetados()){
-            if(recurso.getDono()==this.repre && recurso !=null){
-                if(!this.recursos.contains(recurso)){
-                    this.recursos.add(recurso);
+        for(Item i: itens) {
+            for (Recursos recurso : i.getColetados()) {
+                if (recurso.getDono() == this.repre && recurso != null) {
+                    if (!this.recursos.contains(recurso)) {
+                        this.recursos.add(recurso);
+                        //System.out.println(recurso+"JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ");
+                    }
                 }
             }
         }
+     /*   for(Recursos r : recursos){
+            System.out.println(this.repre+" tem "+r.getClass());
+        }*/
     }
 
-    public void setRecursosSorteados(){
-        int statusAnterior[] = status();
-        for(Recursos recurso : itens.get(0).getColetados()){
-            if(recurso.getDono()==this.repre && recurso !=null){
-                if(!this.recursos.contains(recurso)){
-                    this.recursos.add(recurso);
-                }
-            }
-        }
-        support.firePropertyChange("status",statusAnterior, status());
+        public void updateRecursos(){
+            support.firePropertyChange("status",new int[] {100,100,100,100,100,100}, status());
+
     }
+
+
+
     public int[] status(){
         //metal,municao,combustivel,satelite,guerra,colonizacao
         setRecursos();

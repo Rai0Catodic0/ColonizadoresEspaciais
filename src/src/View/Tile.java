@@ -2,6 +2,8 @@ package View;
 
 import Itens.Item;
 import excecoes.InvalidItemIcon;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -12,6 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Tile extends Pane implements PropertyChangeListener {
 
@@ -120,6 +123,32 @@ public class Tile extends Pane implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-       // System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+propertyChangeEvent);
+       ////System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+propertyChangeEvent);
+        if(propertyChangeEvent.getPropertyName().equals("sorteado")){
+            ImageView fundo = new ImageView(new Image("images/highlight.png"));
+            fundo.setX(12);
+            fundo.setY(10);
+            this.getChildren().add(fundo);
+            fundo.toBack();
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        Thread.sleep(2000);
+
+                    }catch (InterruptedException e){
+
+                    }return null;
+                }
+            };
+            sleeper.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+                @Override
+                public void handle(WorkerStateEvent workerStateEvent) {
+                    getChildren().remove(fundo);
+                }
+            });
+            new Thread(sleeper).start();
+
+        }
     }
 }

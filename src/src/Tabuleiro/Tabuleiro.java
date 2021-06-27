@@ -184,17 +184,17 @@ public class Tabuleiro {
         Random gerador = new Random();
         Recursos r = null ;
         int sorteado = gerador.nextInt(16);
-        int copia;
+        int copia = 0;
         if(sorteado > 8){
             copia = sorteado-8;
-            this.AcharPlaneta(copia).GerarRecursos();
-            System.out.println("Os planetas Sorteados foram :"+sorteado+" e "+copia);
+            //System.out.println("Os planetas Sorteados foram :"+sorteado+"e "+copia);
         }
         else if(sorteado <8){
             copia = sorteado+8;
-            this.AcharPlaneta(copia).GerarRecursos();
-            System.out.println("Os planetas Sorteados foram :"+sorteado+"e "+copia);
+            //System.out.println("Os planetas Sorteados foram :"+sorteado+"e "+copia);
         }
+        this.AcharPlaneta(sorteado).GerarRecursos();
+        this.AcharPlaneta(copia).GerarRecursos();
     }
 
 
@@ -238,11 +238,11 @@ public class Tabuleiro {
 
         if(destino.AvaliarSituacaoIntruso(itemMovido)==1){  //Havera luta
             if(itemMovido.getType().equals("navecolonizadora")){
-              //  System.out.println("JOGOU");
+                //System.out.println("JOGOU");
                 throw  new MovementBlockedByNaveColonizadora();
             }
             itemMovido.movido = true;
-            //System.out.println("aquiii na mudança");
+           // System.out.println("aquiii na mudança");
             Object resultado[] = destino.Lutar(itemMovido);
             if(resultado[0].equals(-1)){
                 origem.Remover(itemMovido);
@@ -267,37 +267,6 @@ public class Tabuleiro {
 
     // getrs e setrs
 
-    public Object[] lutarNaveGuerra(Planeta origem, Planeta destino){
-        Item atacante = origem.hasItem(NaveGuerra.class);
-        int forcaAtaque = atacante.lutar();
-        int forcaDefesaMax = 0;
-        Object[] resultado = null;
-        List<Item> desfensores = destino.getItens();
-        for(Item item : desfensores){
-            int forcaDefasa = item.lutar();
-            if(forcaDefesaMax < forcaDefasa){
-                forcaDefesaMax = forcaDefasa;
-            }
-        }
-        if(forcaAtaque > forcaDefesaMax){
-            resultado = new Object[1+ desfensores.size()];
-            resultado[0] = -2;
-            int i = 1;
-            atacante = origem.Remover(atacante.getType());
-            atacante.movido = true;
-            destino.Inserir(atacante);
-            for (Item item : desfensores){
-                resultado[i] = destino.Remover(item.getType());
-                i++;
-            }
-        }
-        else{
-            resultado = new Object[2];
-            resultado[0] = -1;
-            resultado[1] = origem.Remover(atacante.getType());
-        }
-        return resultado;
-    }
 
 
     public Planeta[][] getPlanetas() {

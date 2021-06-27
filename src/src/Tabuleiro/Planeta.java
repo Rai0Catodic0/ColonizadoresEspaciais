@@ -213,6 +213,7 @@ public class Planeta  implements IPlaneta {
             Item coletor = this.itens.get(0);
             coletor.recolherRecurso(result);
         }
+        support.firePropertyChange("sorteado",false,true);
     }
 
 

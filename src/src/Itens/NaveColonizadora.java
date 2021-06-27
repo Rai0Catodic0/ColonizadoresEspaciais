@@ -17,10 +17,6 @@ public class NaveColonizadora extends Nave implements INaveColonizadora{
         return satelite;
     }
 
-    public Item Construir(char type){
-        Item satelite = new Satelite(this.i, this.j, this.representacao, this.tabuleiro);
-        return satelite;
-    }
 
     public int lutar(){
         Random gerador = new Random();

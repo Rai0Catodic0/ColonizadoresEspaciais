@@ -127,11 +127,10 @@ public class Controle {
         numeroinicio ++;
         if(numeroinicio ==2){
             numeroinicio = 0;
+            //System.out.println("vou gerar recursos");
             tab.gerarRecurso();
-            azul.setRecursosSorteados();
-            verde.setRecursosSorteados();
-            System.out.println("recursos azul: "+ Arrays.toString(azul.status()));
-            System.out.println("recursos verd: "+Arrays.toString(verde.status()));
+           azul.updateRecursos();
+           verde.updateRecursos();
         }
 
         if(!JogoRodando()){
