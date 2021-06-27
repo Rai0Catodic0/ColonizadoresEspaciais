@@ -14,7 +14,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Tile extends Pane implements PropertyChangeListener {
 
@@ -124,9 +123,10 @@ public class Tile extends Pane implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-       ////System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+propertyChangeEvent);
         if(propertyChangeEvent.getPropertyName().equals("sorteado")){
             this.showHighLight("images/highlight.png", 12, 10);
+        } else if(propertyChangeEvent.getPropertyName().equals("itens")){
+            update((List<Item>) propertyChangeEvent.getNewValue());
         }
     }
     public void showHighLight(String highLightPath, int x, int y){

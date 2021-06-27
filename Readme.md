@@ -23,11 +23,120 @@ Ganha o jogador que fizer 12 pontos primeiro (cada item construído
 ## Vídeo da Prévia
 [![preview](mediasDoProjeto/video.png)](https://drive.google.com/file/d/1sm055svD8BkM5IXoianjSeHf3vuLuPKr/view?usp=sharing)
 
+## Vídeo do Jogo
+> COLOCAR LINK DE VÍDEO COM O JOGO
 
 # Slides do Projeto
 
 ## Slides da Prévia
 [`Slides`](mediasDoProjeto/ColonizadoresEspaciaisSlides.pdf)
+
+## Slides da Apresentação Final
+`colocar link da apresentacao final`
+
+## Relatório de Evolução
+
+> A maior dificuldade encontrada foi pensar em uma arquitetura para o projeto que envolvesse a interface gráfica, pois não tínhamos conhecimento de como ela funcionava e não sabíamos como montar seu planejamento.
+> Inicialmente havia uma única classe View, que se comunicava com o Controlador, o que gerava problemas. Pois o controlador atualizava diretamente a View.
+> Com a evolução do projeto, fizemos um componente View para cada componente que tivesse uma interface visual. Desse modo, conseguimos aplicar o pattern Observer para que o componente modelo notificasse a view sempre que houvesse uma mudança.
+> Com isso, o controlador, passou a se preocupar em notificar somente o tabuleiro sobre requisões do usuário e o próprio tabuleiro e componentes atualizamvam a view. 
+
+> Outra dificuldade foi o uso de interfaces, que sofreu várias mudanças no decorrer do projeto. 
+> Estávamos com algumas dificuldades sobre seu papel, adicionando muitas interfaces.
+
+> O desing foi outra dificuldade encontrada, ele demorou um pouco para ser consolidado. Começamos usando java canvas, mas transicionamos para a biblioteca JavaFX por achá-la mais bonita e intuitiva de usar.
+
+> Algo que ficou evidente com o final do projeto, foi a importância da arquitetura e de fazer um bom planejamento. Por falta de conhecimento, não conseguimos fazer isso logo de início e atrapalhou muito o desenvolvimento, pois tivemos que mudar várias vezes a contrução do projeto.
+
+# Destaques de Código
+
+> COLCAR PARTE RELEVANTE DO CÓDIGO
+~~~java
+// Recorte do seu código
+public void algoInteressante(…) {
+   …
+   trechoInteressante = 100;
+}
+~~~
+
+# Destaques de Pattern
+`Adotamos o Pattern observer`
+
+## Diagrama do Pattern
+`COLOCAR DIAGRAMA`
+
+## Código do Pattern
+
+> A classe planeta contém os itens (naves e satélites) e a classe Tile engloba a representação visual do planeta e os itens que ele possui.
+> O Tile é um observer do Planeta. Toda vez que um item é adicionado ou removido do planeta, o Planeta notifica automaticamente o Tile, que resedenha seu espaço com os novos itens.
+> Quando um planeta é sorteado e gera recurso, a classe Planeta também notifica o Tile, que realiza uma mudança visual para que o usuário veja que aquele planeta foi sorteado.
+
+~~~java
+//Planeta notifica Tile
+@Override
+public boolean Inserir(Item item) {
+        if(AvaliarSituacaoIntruso(item)==0){
+        List<Item> itensAnteriores = new ArrayList<>();
+        itensAnteriores.addAll(itens);
+        this.itens.add(item);
+        support.firePropertyChange("itens",itensAnteriores,itens);
+        return true;
+        }
+        return false;
+        }
+        
+//Tile Recebe notificações
+@Override
+public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+        if(propertyChangeEvent.getPropertyName().equals("sorteado")){
+        this.showHighLight("images/highlight.png", 12, 10);
+        } else if(propertyChangeEvent.getPropertyName().equals("itens")){
+        update((List<Item>) propertyChangeEvent.getNewValue());
+        }
+        }
+~~~
+
+> O componente Jogador apresenta o estado do jogador, com sua pontuação, itens e recursos disponíveis. Esse componente sabe, por exemplo, se o jogador já moveu todos os seus itens na rodada, se é a sua vez de jogar. 
+> Conforme essas informações, ele atualiza o componente JogadorGrafico, que as mostra na tela conforme notificado.
+
+~~~java
+//Jogador notifica a parte gráfica quando perde um item
+public void ExcluirItem(Object[] object){
+int statusAnterior[] = status();
+int pontuacaoAnterior = pontuacao;
+for(int i = 1; i<object.length;i++){
+itens.remove(object[i]);
+if(object[i] instanceof NaveColonizadora){
+pontuacao-=1;
+} else if(object[i] instanceof NaveGuerra){
+pontuacao-=2;
+} else {
+pontuacao-=3;
+}
+}
+support.firePropertyChange("status",statusAnterior,status());
+support.firePropertyChange("pontuacao",pontuacaoAnterior, pontuacao);
+}
+
+//Parte gráfica recebe notificação
+@Override
+public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+        if(propertyChangeEvent.getPropertyName().equals("pontuacao")){
+        update((int) propertyChangeEvent.getNewValue());
+        } else if (propertyChangeEvent.getPropertyName().equals("status")){
+        int status[] = (int[]) propertyChangeEvent.getNewValue();
+        barraLateral.update(status);
+        }
+        ....
+}
+~~~ 
+
+> Aplicamos esse Pattern usando o "PropertyChangeSupport" do Java beans. Com isso, o controle não atualizava mais a View e só se preocupava com a lógica do jogo. Além disso, nesse modelo podemos modificar completamente a view, sem afetar o funcionamento do jogo, administrado pelo controle e pelas classes "modelo".
+
+# Conclusões e Trabalhos Futuros
+
+> Patterns fututos??????????????????????/ Melhorias?????????????????? Lições Aprendidas?????????/
+> Uma melhoria que poderia ser implementada é um componente Montador. No início do jogo, parecia que não havia necessidade de usá-lo, mas conforme o jogo cresceu, esse componente poderia ser usado pelo controlador para construir o jogo e conectar observers com seus obsevebles, retornando um jogo pronto para o controle.
 
 # Documentação dos Componentes
 

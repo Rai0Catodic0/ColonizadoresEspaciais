@@ -79,7 +79,7 @@ public class BarraSelecao {
         //Botao Mover
         botaoMover = new Button();
         botaoMover.setText("Mover");
-        botaoMover.setLayoutY(930);
+        botaoMover.setLayoutY(500);
         botaoMover.setLayoutX(300);
         botaoMover.setFont(Font.font("Verdana", 15));
         botaoMover.getStylesheets().add(getClass().getResource("styleBotaoSelecao.css").toExternalForm());
@@ -258,7 +258,7 @@ public class BarraSelecao {
 
     public void DesenharBarras(List<Item> itens){
        System.out.println("Itens do desenhar barras: "+itens);
-        double y = 900;
+        double y = 500;
         int itemNaveGuerra = 0;
         int itemNaveCol = 0;
         int itemSat = 0;

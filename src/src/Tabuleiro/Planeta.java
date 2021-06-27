@@ -144,13 +144,10 @@ public class Planeta  implements IPlaneta {
     @Override
     public boolean Inserir(Item item) {
         if(AvaliarSituacaoIntruso(item)==0){
-            List<Item> velhos = new ArrayList<>();
-            velhos.addAll(itens);
+            List<Item> itensAnteriores = new ArrayList<>();
+            itensAnteriores.addAll(itens);
             this.itens.add(item);
-            support.firePropertyChange("Mudança de itens",velhos,itens);
-            if(this.tile!=null){
-                this.tile.update(this.itens);
-            }
+            support.firePropertyChange("itens",itensAnteriores,itens);
             return true;
         }
         return false;
