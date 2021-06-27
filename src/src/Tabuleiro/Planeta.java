@@ -56,7 +56,7 @@ public class Planeta  implements IPlaneta {
         //this.idVizinhos = idVizinhos;
         this.type = type;
         int imgNumber = new Random().nextInt(2);
-        this.imgpath = "images/planeta"+type+ 1;
+        this.imgpath = "images/planeta"+type+ imgNumber;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {

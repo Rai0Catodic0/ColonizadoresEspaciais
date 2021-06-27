@@ -63,7 +63,7 @@ public class BarraSelecao {
     private void CriarCena(){
         //Botao Passar Vez
         botaoPassarVez = new Button();
-        botaoPassarVez.setText("Paasar a vez");
+        botaoPassarVez.setText("Passar a vez");
         botaoPassarVez.setLayoutY(50);
         botaoPassarVez.setLayoutX(0);
         botaoPassarVez.setFont(Font.font("Verdana", 15));
@@ -79,7 +79,7 @@ public class BarraSelecao {
         //Botao Mover
         botaoMover = new Button();
         botaoMover.setText("Mover");
-        botaoMover.setLayoutY(539.5);
+        botaoMover.setLayoutY(930);
         botaoMover.setLayoutX(300);
         botaoMover.setFont(Font.font("Verdana", 15));
         botaoMover.getStylesheets().add(getClass().getResource("styleBotaoSelecao.css").toExternalForm());
@@ -94,7 +94,7 @@ public class BarraSelecao {
         //Botao Construir satélite
         botaoConstruirSatelite = new Button();
         botaoConstruirSatelite.setText("Construir Satelite");
-        botaoConstruirSatelite.setLayoutY(539.5);
+        botaoConstruirSatelite.setLayoutY(930);
         botaoConstruirSatelite.setLayoutX(500);
         botaoConstruirSatelite.setFont(Font.font("Verdana", 15));
         botaoConstruirSatelite.getStylesheets().add(getClass().getResource("styleBotaoSelecao.css").toExternalForm());
@@ -110,7 +110,7 @@ public class BarraSelecao {
         //Botao Construir Nave de Guerra
         botaoConstruirNaveGuerra = new Button();
         botaoConstruirNaveGuerra.setText("Construir Nave de Guerra");
-        botaoConstruirNaveGuerra.setLayoutY(539.5);
+        botaoConstruirNaveGuerra.setLayoutY(930);
         botaoConstruirNaveGuerra.setLayoutX(700);
         botaoConstruirNaveGuerra.setFont(Font.font("Verdana", 15));
         botaoConstruirNaveGuerra.getStylesheets().add(getClass().getResource("styleBotaoSelecao.css").toExternalForm());
@@ -126,7 +126,7 @@ public class BarraSelecao {
         //Botao Construir Nave de Colonização
         botaoConstruirNaveColonizacao = new Button();
         botaoConstruirNaveColonizacao.setText("Construir Nave de Colonizacao");
-        botaoConstruirNaveColonizacao.setLayoutY(539.5);
+        botaoConstruirNaveColonizacao.setLayoutY(930);
         botaoConstruirNaveColonizacao.setLayoutX(300);
         botaoConstruirNaveColonizacao.setFont(Font.font("Verdana", 15));
         botaoConstruirNaveColonizacao.getStylesheets().add(getClass().getResource("styleBotaoSelecao.css").toExternalForm());
@@ -142,12 +142,12 @@ public class BarraSelecao {
         //Botao Nave colonizadora
         botaoNaveColonizadora = new Button();
         botaoNaveColonizadora.setText("Nave Colonizadora");
-        botaoNaveColonizadora.setLayoutY(539.5);
+        botaoNaveColonizadora.setLayoutY(930);
         botaoNaveColonizadora.setLayoutX(0);
         botaoNaveColonizadora.setFont(Font.font("Verdana", 15));
         botaoNaveColonizadora.setGraphic(GerarGraphic("navecolonizadora"));
         botaoNaveColonizadora.getStylesheets().add(getClass().getResource("styleBotaoSelecao.css").toExternalForm());
-        botaoNaveColonizadora.setMinWidth(210);
+        botaoNaveColonizadora.setPrefWidth(253);
         botaoNaveColonizadora.setAlignment(Pos.BASELINE_LEFT);
         botaoNaveColonizadora.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -167,7 +167,7 @@ public class BarraSelecao {
         botaoNaveGuerra.setFont(Font.font("Verdana", 15));
         botaoNaveGuerra.setGraphic(GerarGraphic("naveguerra"));
         botaoNaveGuerra.getStylesheets().add(getClass().getResource("styleBotaoSelecao.css").toExternalForm());
-        botaoNaveGuerra.setMinWidth(210);
+        botaoNaveGuerra.setMinWidth(253);
         botaoNaveGuerra.setAlignment(Pos.BASELINE_LEFT);
         botaoNaveGuerra.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -183,12 +183,12 @@ public class BarraSelecao {
         //Botao Nave de Satelite
         botaoSatelite = new Button();
         botaoSatelite.setText("Satélite");
-        botaoSatelite.setLayoutY(659.5);
+        botaoSatelite.setLayoutY(930);
         botaoSatelite.setLayoutX(0);
         botaoSatelite.setFont(Font.font("Verdana", 15));
         botaoSatelite.setGraphic(GerarGraphic("satelite"));
         botaoSatelite.getStylesheets().add(getClass().getResource("styleBotaoSelecao.css").toExternalForm());
-        botaoSatelite.setMinWidth(210);
+        botaoSatelite.setPrefWidth(253);
         botaoSatelite.setAlignment(Pos.BASELINE_LEFT);
         botaoSatelite.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -258,7 +258,7 @@ public class BarraSelecao {
 
     public void DesenharBarras(List<Item> itens){
        System.out.println("Itens do desenhar barras: "+itens);
-        double y = 539.5;
+        double y = 900;
         int itemNaveGuerra = 0;
         int itemNaveCol = 0;
         int itemSat = 0;
@@ -270,21 +270,21 @@ public class BarraSelecao {
                 botaoNaveGuerra.setLayoutY(y);
                 botaoNaveGuerra.setGraphic(GerarGraphic("naveguerra"));
                 root.getChildren().add(botaoNaveGuerra);
-                y+=60;
+                y-=85;
               System.out.println("item no if nave de guerra");
             } else if (item instanceof NaveColonizadora && itemNaveCol == 0 && EhMinhaVez(item)){
                 itemNaveCol = 1;
-                botaoConstruirNaveColonizacao.setLayoutY(y);
                 botaoNaveColonizadora.setGraphic(GerarGraphic("navecolonizadora"));
+                botaoNaveColonizadora.setLayoutY(y);
                 root.getChildren().add(botaoNaveColonizadora);
-                y+=60;
+                y-=85;
                System.out.println("item no item nave col");
             } else if(item instanceof Satelite && itemSat == 0 && EhMinhaVez(item)) {
                 itemSat = 1;
                 botaoSatelite.setLayoutY(y);
                 botaoSatelite.setGraphic(GerarGraphic("satelite"));
                 root.getChildren().add(botaoSatelite);
-                y+=60;
+                y-=85;
               System.out.println("Item no item satelte");
             }
         }

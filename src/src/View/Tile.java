@@ -49,6 +49,7 @@ public class Tile extends Pane implements PropertyChangeListener {
                 //System.out.println("NESSE PLANETA TEMOS: "+items);
                 System.out.println("o id do planeta é :"+id);
                 barraSelecao.ClicouPlaneta(id, items);
+                showHighLight("images/highlightvermelho.png", 37, 30);
             }
         });
 
@@ -125,30 +126,33 @@ public class Tile extends Pane implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
        ////System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+propertyChangeEvent);
         if(propertyChangeEvent.getPropertyName().equals("sorteado")){
-            ImageView fundo = new ImageView(new Image("images/highlight.png"));
-            fundo.setX(12);
-            fundo.setY(10);
-            this.getChildren().add(fundo);
-            fundo.toBack();
-            Task<Void> sleeper = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    try {
-                        Thread.sleep(2000);
-
-                    }catch (InterruptedException e){
-
-                    }return null;
-                }
-            };
-            sleeper.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-                @Override
-                public void handle(WorkerStateEvent workerStateEvent) {
-                    getChildren().remove(fundo);
-                }
-            });
-            new Thread(sleeper).start();
-
+            this.showHighLight("images/highlight.png", 12, 10);
         }
+    }
+    public void showHighLight(String highLightPath, int x, int y){
+        ImageView fundo = new ImageView(new Image(highLightPath));
+        fundo.setX(x);
+        fundo.setY(y);
+        this.getChildren().add(fundo);
+        fundo.toBack();
+        Task<Void> sleeper = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    Thread.sleep(2000);
+
+                }catch (InterruptedException e){
+
+                }return null;
+            }
+        };
+        sleeper.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent workerStateEvent) {
+                getChildren().remove(fundo);
+            }
+        });
+        new Thread(sleeper).start();
+
     }
 }

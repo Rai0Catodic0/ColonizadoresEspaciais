@@ -248,7 +248,7 @@ public class Controle {
             avisos.setText("Movimento Inválido. Mova para planetas vizinhos, siga as linhas!");
             return false;
         } else if(getVezJogador().MoveuTodosItens()){
-            avisos.setText("Parabéns, "+getVezJogador().nome+ "moveu todos os seus itens! Agora é a vez de "+ getVezProximoJogador().nome);
+            avisos.setText("Parabéns, "+getVezJogador().nome+ " moveu todos os seus itens! Agora é a vez de "+ getVezProximoJogador().nome);
             TrocarVez();
             return true;
         } else {
