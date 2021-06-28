@@ -23,7 +23,8 @@ Ganha o jogador que fizer 12 pontos primeiro (cada item construído
 ## Vídeo da Prévia
 [![preview](mediasDoProjeto/video.png)](https://drive.google.com/file/d/1sm055svD8BkM5IXoianjSeHf3vuLuPKr/view?usp=sharing)
 
-
+## Vídeo do Funcionamento do Jogo
+[![preview](mediasDoProjeto/unknown.png)](https://drive.google.com/drive/u/0/folders/1dF5XwxH8kss3cXVdn6aHmZ-hgGBuFjXV)
 # Slides do Projeto
 
 ## Slides da Prévia
