@@ -52,7 +52,7 @@ public class JogadorGrafico implements PropertyChangeListener {
     }
 
     public void update(int pontos){
-        double progresso = pontos/12.0;
+        double progresso = pontos/16.0;
         this.barraPontuacao.setProgress(progresso);
         this.pontos.setText(String.valueOf(pontos));
     }

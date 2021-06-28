@@ -97,8 +97,6 @@ public class Controle {
         azul.setItens(tab.getItensA().get(0));
         azul.setItens(tab.getItensA().get(1));
 
-        azul.pontuacao = 11;
-        verde.pontuacao = 11;
 
         azul.addPropertyChangeListener(jogGraficoAzul);
         verde.addPropertyChangeListener(jogGraficoVerde);
@@ -153,7 +151,7 @@ public class Controle {
         int pontosVencedor;
         int pontosPerdedor;
 
-        if(azul.getQtdItens()<=0 || azul.getPontuacao()>=12 ){
+        if(azul.getQtdItens()<=0 || azul.getPontuacao()>=16 ){
             corVencedor = azul.repre;
             nomeVencedor = azul.nome;
             nomePerdedor = verde.nome;
@@ -261,7 +259,7 @@ public class Controle {
     }
 
     private boolean JogoRodando(){
-        if(azul.getQtdItens()<=0 || verde.getQtdItens()<=0 || azul.getPontuacao()>=12 || verde.getPontuacao()>=12){
+        if(azul.getQtdItens()<=0 || verde.getQtdItens()<=0 || azul.getPontuacao()>=16 || verde.getPontuacao()>=16){
             return false;
         }
         return true;
