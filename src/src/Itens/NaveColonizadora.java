@@ -22,7 +22,6 @@ public class NaveColonizadora extends Nave implements INaveColonizadora {
     public int lutar(){
         Random gerador = new Random();
         int max = gerador.nextInt(6);
-        System.out.println("nave colonizadora "+max);
         return max;
     }
 }

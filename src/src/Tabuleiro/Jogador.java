@@ -29,7 +29,7 @@ public class Jogador implements IJogador {
 
         support = new PropertyChangeSupport(this);
 
-        this.pontuacao = 0;
+        this.pontuacao = 4;
         this.repre = repre;
         this.itens = new ArrayList<>();
         this.recursos = new ArrayList<>();
@@ -53,14 +53,15 @@ public class Jogador implements IJogador {
 
 
         private  void remove(Class tipo){
-            for(Recursos r : recursos){
-                if(r.getClass() == tipo){
-                    recursos.remove(r);
-                    itens.get(0).getColetados().remove(r);
-                    break;
+            for(Item i : itens) {
+                for (Recursos r : recursos) {
+                    if (r.getClass() == tipo) {
+                        recursos.remove(r);
+                        i.getColetados().remove(r);
+                        break;
+                    }
                 }
             }
-
         }
 
     public void RemoverRecurso(String item){

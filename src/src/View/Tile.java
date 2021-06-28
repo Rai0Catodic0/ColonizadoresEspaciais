@@ -37,14 +37,11 @@ public class Tile extends Pane implements PropertyChangeListener, ITile {
         try{
             botao = new BotaoPlaneta(imgpath, positions);
         }catch (RuntimeException e){
-            //System.out.println("DEU RUIM "+e.getMessage());
             return;
         }
         botao.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                //System.out.println("NESSE PLANETA TEMOS: "+items);
-                System.out.println("o id do planeta é :"+id);
                 barraSelecao.ClicouPlaneta(id, items);
                 showHighLight("images/highlightvermelho.png", 37, 30);
             }
@@ -54,7 +51,6 @@ public class Tile extends Pane implements PropertyChangeListener, ITile {
         try {
             this.Desenhar();
         }catch (Exception e){
-            //System.out.println("DEU RUIM"+e.getMessage());
         }
     }
 
@@ -69,13 +65,10 @@ public class Tile extends Pane implements PropertyChangeListener, ITile {
     }
 
     public void Desenhar() throws RuntimeException{
-        //System.out.println("Esse é a lista de itens q vou desenhra: "+items+" no planeta "+this.id);
         int i = 0;
         int [] positionsX = {0,100,0};
         int [] positionsY = {0,100,100};
         for(Item item : this.items){
-            //System.out.println("61"+item);
-            //System.out.println(item.getImgPath().contains("imags"));
             try {
                 images[i] = new ImageView(new Image(item.getImgPath()));
             } catch (Exception e) {
@@ -93,7 +86,6 @@ public class Tile extends Pane implements PropertyChangeListener, ITile {
         try {
             this.Desenhar();
         }catch (RuntimeException e){
-            //System.out.println("DEU RUIM"+e.getMessage());
         }
 
     }

@@ -21,7 +21,6 @@ public class Satelite extends Item implements ISatelite {
         for(int i = 0; i<result.length; i++){
             max = result[i];
         }
-        System.out.println("satelite :"+max);
         return max;
     }
 

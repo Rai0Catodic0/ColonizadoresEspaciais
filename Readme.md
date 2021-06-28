@@ -24,7 +24,7 @@ Ganha o jogador que fizer 12 pontos primeiro (cada item construído
 [![preview](mediasDoProjeto/video.png)](https://drive.google.com/file/d/1sm055svD8BkM5IXoianjSeHf3vuLuPKr/view?usp=sharing)
 
 ## Vídeo do Jogo
-> COLOCAR LINK DE VÍDEO COM O JOGO
+[![preview](mediasDoProjeto/unknown.png)](https://r1---sn-bg07dn6r.c.drive.google.com/videoplayback?expire=1624866345&ei=6UXZYPrvOfCC0_wP08uX2AI&ip=152.249.172.247&cp=QVRHVklfVVNSRlhPOjVwREE1MnBUck1SektuUnRPdGZrdzRtMUpkN2JVZ1FvS0xwTW5Vcl9EaFM&id=11cdc12342dfcc07&itag=18&source=webdrive&requiressl=yes&sc=yes&ttl=transient&susc=dr&driveid=1GXtweUdVgBALA0UBgLl2Ft-Lv1kjOEnw&app=explorer&mime=video/mp4&vprv=1&prv=1&dur=300.094&lmt=1624851478733396&sparams=expire,ei,ip,cp,id,itag,source,requiressl,ttl,susc,driveid,app,mime,vprv,prv,dur,lmt&sig=AOq0QJ8wRgIhAMJ6TAhvqnEgQkVWAVrg4gZR8siT1E6QZiciGEFo2qtAAiEA_3DMa5zsTtufxaLDNe5ye51OKFimOKVS0t0zrP_CMHU=&cpn=KaoDLOoeHdOkhI8I&c=WEB_EMBEDDED_PLAYER&cver=1.20210623.1.0&redirect_counter=1&rm=sn-bg0r77e&req_id=436bf50e4aeb36e2&cms_redirect=yes&ipbypass=yes&mh=ON&mip=2804:431:c7fa:5801:c0cc:a19:9906:5da1&mm=32&mn=sn-bg07dn6r&ms=su&mt=1624851618&mv=m&mvi=1&pl=52&lsparams=ipbypass,mh,mip,mm,mn,ms,mv,mvi,pl,sc&lsig=AG3C_xAwRQIhANFnfs2ytdN4byfMHf7zAeKkSRpO_SITHXaqI7qcGoeJAiBV2zZZvAeToo4xaGNQiKgH1eD_il2ixlQky4toHr9ZhQ%3D%3D)
 
 # Slides do Projeto
 
@@ -225,7 +225,7 @@ Método | Objetivo
 **Ficha Técnica** 
 item | detalhamento
 ----- | -----
-Classe | `Tabuleiro.Controle`
+Classe | `View.Controle`
 Autores | `Jéssica`
 Interfaces | `IControle`
 

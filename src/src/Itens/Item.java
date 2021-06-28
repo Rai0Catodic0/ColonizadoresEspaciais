@@ -32,15 +32,12 @@ public class Item implements IItem {
     @Override
     public int lutar() {
         Random gerador = new Random();
-        System.out.println("nave colonizadora");
         return gerador.ints(1,0,6).toArray()[0];
     }
 
     public void recolherRecurso(Recursos coletado) {
         coletado.setDono(this.representacao);
         coletados.add(coletado);
-        //System.out.println("eu "+this.getClass()+" "+this.representacao+" recolhi "+coletado.getType());
-
     }
 
     // getters e setters
@@ -67,14 +64,11 @@ public class Item implements IItem {
         String type;
         if(this instanceof NaveGuerra){
             type = "naveguerra";
-            //System.out.println("tipo :guerra -> ");
         }else if(this instanceof NaveColonizadora){
              type = "navecolonizadora";
-            //System.out.println("tipo :colonizadora -> ");
         }
         else {
             type = "satelite";
-            //System.out.println("tipo :satelite -> ");
         }
         return type;
     }

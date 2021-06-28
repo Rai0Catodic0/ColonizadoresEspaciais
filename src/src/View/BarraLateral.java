@@ -147,8 +147,6 @@ public class BarraLateral {
     }
 
     public void update(int[] status) {
-        //metal,municao,combustivel,satelite,guerra,colonizacao
-        //System.out.println("Estou sendo atualizada");
         metal.setText(String.valueOf(status[0]));
         fuel.setText(String.valueOf(status[2]));
         bullet.setText(String.valueOf(status[1]));

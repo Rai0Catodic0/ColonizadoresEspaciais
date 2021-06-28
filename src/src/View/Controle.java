@@ -98,9 +98,6 @@ public class Controle implements IControle {
         azul.setItem(tab.getItensA().get(0));
         azul.setItem(tab.getItensA().get(1));
 
-        azul.setPontuacao(4);
-        verde.setPontuacao(4);
-
         azul.addPropertyChangeListener(jogGraficoAzul);
         verde.addPropertyChangeListener(jogGraficoVerde);
 
@@ -130,7 +127,6 @@ public class Controle implements IControle {
         numeroinicio ++;
         if(numeroinicio ==2){
             numeroinicio = 0;
-            //System.out.println("vou gerar recursos");
             tab.gerarRecurso();
            azul.updateRecursos();
            verde.updateRecursos();
@@ -154,7 +150,7 @@ public class Controle implements IControle {
         int pontosVencedor;
         int pontosPerdedor;
 
-        if(azul.getQtdItens()<=0 || azul.getPontuacao()>=12 ){
+        if(azul.getQtdItens()<=0 || azul.getPontuacao()>=16 ){
             corVencedor = azul.repre;
             nomeVencedor = azul.nome;
             nomePerdedor = verde.nome;
@@ -202,7 +198,6 @@ public class Controle implements IControle {
             getVezJogador().RemoverRecurso(objeto);
             return;
         }else{
-            System.out.println("EROO AO VALIDAR");
             throw new NotEnoughRecursos(objeto);
         }
     }
@@ -212,7 +207,6 @@ public class Controle implements IControle {
             ValidarConstrucao(objeto);
         }catch (NotEnoughRecursos notEnoughRecursos){
             avisos.setText(getVezJogador().nome+","+notEnoughRecursos.getMessage());
-            System.out.println(notEnoughRecursos.getMessage());
             return false;
         }
         Item construido = tab.Construir(planetaClicado, objeto);
@@ -246,7 +240,6 @@ public class Controle implements IControle {
             getVezProximoJogador().ExcluirItem(resultado);
             avisos.setText(getVezJogador().nome+", você ganhou essa batalha!");
         }
-        System.out.println("MOVEU TODOS: "+getVezJogador().MoveuTodosItens()+getVezJogador().nome);
         if(resultado[0].equals(1)){
             avisos.setText("Movimento Inválido. Mova para planetas vizinhos, siga as linhas!");
             return false;
@@ -262,7 +255,7 @@ public class Controle implements IControle {
     }
 
     private boolean JogoRodando(){
-        if(azul.getQtdItens()<=0 || verde.getQtdItens()<=0 || azul.getPontuacao()>=12 || verde.getPontuacao()>=12){
+        if(azul.getQtdItens()<=0 || verde.getQtdItens()<=0 || azul.getPontuacao()>=16 || verde.getPontuacao()>=16){
             return false;
         }
         return true;
