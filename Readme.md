@@ -250,9 +250,12 @@ public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
 >. Alem disso uso do pattern obsever poderia ser ampliado para facilitar a atualização de partes da interface gráfica
 ## Melhorias Futuras 
 > Uma melhoria que poderia ser implementada é um componente Montador. No início do jogo, parecia que não havia necessidade de usá-lo, mas conforme o jogo cresceu, esse componente poderia ser usado pelo controlador para construir o jogo e conectar observers com seus obsevebles, retornando um jogo pronto para o controle.
+> Expandir o uso de multithreading na interface grafica pode ser bastante vantajoso para o projeto 
 > Outra melhoria possivel é o uso de vetores para armazenar as intâncias dos jogadores no controle ,o que iria possibilitar ampliar os numeros de jogadores. Isso abre espaço para varias novas mecânicas de jogo como troca entre jogadores, ampliação do tamanho do tabuleiro e numero de planetas , cartas de objetivo como por exemplo o jogador com maior frota de naves ganha ponto ou o jogador com mais planetas do mesmo tipo ganha um ponto extra
 <br>
 > Um modo online é algo que o grupo gostaria muito que fosse implementado, utilizando banco de dados e sockets para permitir que o jogo possa ter um multiplayer online .
+> 
+
 # Documentação dos Componentes
 
 # Diagramas
