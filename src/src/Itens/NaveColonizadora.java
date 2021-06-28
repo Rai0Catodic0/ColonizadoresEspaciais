@@ -1,10 +1,11 @@
 package Itens;
 
+import Interfaces.INaveColonizadora;
 import Tabuleiro.Tabuleiro;
 
 import java.util.Random;
 
-public class NaveColonizadora extends Nave implements INaveColonizadora{
+public class NaveColonizadora extends Nave implements INaveColonizadora {
     public NaveColonizadora(int i, int j, String repre, Tabuleiro tab) {
 
 

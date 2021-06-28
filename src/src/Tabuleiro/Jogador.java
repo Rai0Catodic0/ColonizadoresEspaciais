@@ -1,5 +1,6 @@
 package Tabuleiro;
 
+import Interfaces.IJogador;
 import Itens.Item;
 import Itens.NaveColonizadora;
 import Itens.NaveGuerra;
@@ -14,7 +15,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Jogador {
+public class Jogador implements IJogador {
     private PropertyChangeSupport support;
     public int pontuacao;
     public List<Item> itens;
@@ -46,7 +47,7 @@ public class Jogador {
         this.recursos.add(d);
     }
 
-    public void setItens(Item item){
+    public void setItem(Item item){
         this.itens.add(item);
     }
 
@@ -229,6 +230,10 @@ public class Jogador {
         support.firePropertyChange("pontuacao",0,this.pontuacao);
         support.firePropertyChange("status", new int[] {0,0,0,0,0,0},status());
         this.nome = nome;
+    }
+
+    public void setPontuacao(int pontuacao){
+        this.pontuacao = pontuacao;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {

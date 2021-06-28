@@ -2,7 +2,6 @@ package Tabuleiro;
 
 import Itens.Item;
 import Itens.NaveColonizadora;
-import Itens.NaveGuerra;
 import Itens.Satelite;
 import Recursos.Recursos;
 import excecoes.ItemAlreadyMoved;
@@ -261,7 +260,7 @@ public class Tabuleiro {
 
     public Item Construir(int id, String objeto){
         Planeta p = AcharPlaneta(id);
-        Item construido = p.Construir(objeto);
+        Item construido = p.Construir(id, objeto);
         return construido;
     }
 

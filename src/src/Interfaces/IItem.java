@@ -1,4 +1,4 @@
-package Itens;
+package Interfaces;
 
 import Recursos.Recursos;
 

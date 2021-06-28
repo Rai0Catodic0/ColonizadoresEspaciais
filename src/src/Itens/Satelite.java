@@ -1,5 +1,6 @@
 package Itens;
 
+import Interfaces.ISatelite;
 import Tabuleiro.Tabuleiro;
 
 import java.util.Random;

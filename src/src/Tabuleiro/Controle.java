@@ -5,8 +5,7 @@ public class Controle {
 
     Controle(Jogador verde, Jogador azul){
         verde = this.verde;
-        azul = this.azul;
-    }
+        azul = this.azul;    }
 
     public void IniciaJogo(){
         System.out.println("Tudo pronto para começar!");

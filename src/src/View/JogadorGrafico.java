@@ -1,5 +1,6 @@
 package View;
 
+import Interfaces.IJogadorGrafico;
 import javafx.scene.Group;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.paint.Color;
@@ -10,7 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 
-public class JogadorGrafico implements PropertyChangeListener {
+public class JogadorGrafico implements PropertyChangeListener, IJogadorGrafico {
     private ProgressBar barraPontuacao;
     private Text nome;
     private Text pontos;
@@ -66,6 +67,10 @@ public class JogadorGrafico implements PropertyChangeListener {
         }
     }
 
+    public void setNome(String nome){
+        this.nome.setText(nome);
+    }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
@@ -77,7 +82,7 @@ public class JogadorGrafico implements PropertyChangeListener {
         } else if(propertyChangeEvent.getPropertyName().equals("vez")){
             TrocarVez();
         } else if(propertyChangeEvent.getPropertyName().equals("nome")){
-            nome.setText((String) propertyChangeEvent.getNewValue());
+            setNome((String) propertyChangeEvent.getNewValue());
         } else if(propertyChangeEvent.getPropertyName().equals("iniciar")){
         Desenhar();
     }

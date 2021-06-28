@@ -1,5 +1,6 @@
 package View;
 
+import Interfaces.ITile;
 import Itens.Item;
 import excecoes.InvalidItemIcon;
 import javafx.concurrent.Task;
@@ -15,7 +16,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tile extends Pane implements PropertyChangeListener {
+public class Tile extends Pane implements PropertyChangeListener, ITile {
 
     List<Item> items = new ArrayList<>();
     BotaoPlaneta botao;
@@ -32,9 +33,6 @@ public class Tile extends Pane implements PropertyChangeListener {
         this.barraSelecao = barraSelecao;
     }
 
-    //TODO classe separada pra luta
-    // tudo bem classe meio inuteis
-    // so uma interface tá show
     public void IniciarTile(){
         try{
             botao = new BotaoPlaneta(imgpath, positions);
@@ -90,10 +88,8 @@ public class Tile extends Pane implements PropertyChangeListener {
         }
     }
 
-    public void update(List<Item> itens){
+    public void update(){
         Esconder();
-        this.items = itens;
-
         try {
             this.Desenhar();
         }catch (RuntimeException e){
@@ -111,7 +107,7 @@ public class Tile extends Pane implements PropertyChangeListener {
         this.imgpath = imgpath;
     }
 
-    public void setItems(List<Item> items){
+    public void setItens(List<Item> items){
         this.items = items;
     }
 
@@ -126,7 +122,8 @@ public class Tile extends Pane implements PropertyChangeListener {
         if(propertyChangeEvent.getPropertyName().equals("sorteado")){
             this.showHighLight("images/highlight.png", 12, 10);
         } else if(propertyChangeEvent.getPropertyName().equals("itens")){
-            update((List<Item>) propertyChangeEvent.getNewValue());
+            setItens((List<Item>) propertyChangeEvent.getNewValue());
+            update();
         }
     }
     public void showHighLight(String highLightPath, int x, int y){
@@ -153,6 +150,5 @@ public class Tile extends Pane implements PropertyChangeListener {
             }
         });
         new Thread(sleeper).start();
-
     }
 }

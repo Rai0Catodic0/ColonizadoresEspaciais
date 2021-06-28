@@ -1,5 +1,6 @@
 package Tabuleiro;
 
+import Interfaces.IPlaneta;
 import Itens.Item;
 import Itens.NaveColonizadora;
 import Itens.NaveGuerra;
@@ -73,10 +74,7 @@ public class Planeta  implements IPlaneta {
         List<Item> velhos = new ArrayList<>();
         velhos.addAll(itens);
         this.itens.remove(item);
-        support.firePropertyChange("Mudança de itens",velhos,itens);
-        if(this.tile!=null){
-            this.tile.update(this.itens);
-        }
+        support.firePropertyChange("itens",velhos,itens);
     }
 
     public List<Item> getItens() {
@@ -153,72 +151,12 @@ public class Planeta  implements IPlaneta {
         return false;
     }
 
-    public void Inserir(String itemInseridoString, Item itemInserido) {
-        Inserir(itemInserido);
-        System.out.println("INSERIR "+id);
-    }
-
-    public Item Remover(String itemRemovido) {
-        //FIXME so funciona com nave de guerra ??
-        System.out.println("Essa é a lista do planeta " + this +"antes de remover :"+itens);
-        Item itemRemoverI = null;
-        if(itemRemovido.equals("naveColonizadora") || itemRemovido.equals("navecolonizadora")){
-            for(Item item : itens){
-                //System.out.println("nave colonizadora");
-                if(item instanceof NaveColonizadora){
-                    itemRemoverI = item;
-                    break;
-                }
-            }
-        }else if(itemRemovido.equals("naveGuerra")|| itemRemovido.equals("naveguerra")){
-            for(Item item : itens){
-                if(item instanceof NaveGuerra){
-                    //System.out.println("nave guera");
-                    itemRemoverI = item;
-                    break;
-                }
-            }
-        }else{
-            System.out.println("removendo");
-            for(Item item : itens){
-                if(item instanceof  Satelite){
-                    itemRemoverI = item;
-                    break;
-                }
-            }
-        }
-        Remover(itemRemoverI);
-        System.out.println("Essa é a lista do planeta " + this +"depois de remover :"+itens);
-        return itemRemoverI;
-    }
-
-    @Override
-    public void GerarRecursos() {
-        Recursos result = null;
-        switch (this.type){
-            case "metal":
-                result = new Mineral();
-                break;
-            case "municao":
-                result = new Municao();
-                break;
-            case "combustivel":
-                result = new Combustivel();
-                break;
-        }
-        if(this.itens.size() !=0){
-            Item coletor = this.itens.get(0);
-            coletor.recolherRecurso(result);
-        }
-        support.firePropertyChange("sorteado",false,true);
-    }
-
 
     public void setTile(Tile tile){
         this.tile = tile;
         tile.setImgpath(this.getImgpath());
         tile.setPositionsPixels(this.getPixelsPosition());
-        tile.setItems(this.getItens());
+        tile.setItens(this.getItens());
         tile.setPlanetaId(id);
         tile.IniciarTile();
     }
@@ -239,7 +177,7 @@ public class Planeta  implements IPlaneta {
         return ehVizinho;
     }
 
-    public Item Construir(String objeto) {
+    public Item Construir(int id, String objeto) {
 
         Item construtor = null;
         Item construido = null;
@@ -306,4 +244,24 @@ public class Planeta  implements IPlaneta {
         }
     }
 
+    @Override
+    public void GerarRecursos() {
+                Recursos result = null;
+                switch (this.type){
+                    case "metal":
+                        result = new Mineral();
+                        break;
+                    case "municao":
+                        result = new Municao();
+                        break;
+                    case "combustivel":
+                        result = new Combustivel();
+                        break;
+                }
+                if(this.itens.size() !=0){
+                    Item coletor = this.itens.get(0);
+                    coletor.recolherRecurso(result);
+                }
+                support.firePropertyChange("sorteado",false,true);
+    }
 }

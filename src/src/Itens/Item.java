@@ -1,4 +1,5 @@
 package Itens;
+import Interfaces.IItem;
 import Recursos.Recursos;
 import Tabuleiro.Tabuleiro;
 
@@ -6,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Item implements IItem{
+public class Item implements IItem {
     public int i;
     public int j;
     public boolean movido;

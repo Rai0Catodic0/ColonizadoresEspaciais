@@ -1,15 +1,13 @@
-package Tabuleiro;
+package Interfaces;
 
 import Itens.Item;
 
 import java.util.List;
 
 
-public interface IPlaneta {
-
+public interface IPlaneta extends IGerarRecurso, IConstruir {
     void Remover(Item item);
     boolean Inserir(Item item);
-    void GerarRecursos();
     List<Item> getItens();
-    //void addObserver(Jogador j);
+    boolean  isVizinho(int idVizinho);
 }

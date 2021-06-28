@@ -1,4 +1,4 @@
-package Itens;
+package Interfaces;
 
 public interface INave extends IItem {
 

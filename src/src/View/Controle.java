@@ -1,6 +1,7 @@
 package View;
 
 
+import Interfaces.IControle;
 import Itens.Item;
 import Tabuleiro.Jogador;
 import Tabuleiro.Planeta;
@@ -20,7 +21,7 @@ import javafx.stage.Stage;
 
 import java.util.Random;
 
-public class Controle {
+public class Controle implements IControle {
     private Tabuleiro tab;
     private Jogador verde;
     private Jogador azul;
@@ -92,13 +93,13 @@ public class Controle {
         azul = new Jogador("a");
         verde = new Jogador("v");
 
-        verde.setItens(tab.getItensB().get(0));
-        verde.setItens(tab.getItensB().get(1));
-        azul.setItens(tab.getItensA().get(0));
-        azul.setItens(tab.getItensA().get(1));
+        verde.setItem(tab.getItensB().get(0));
+        verde.setItem(tab.getItensB().get(1));
+        azul.setItem(tab.getItensA().get(0));
+        azul.setItem(tab.getItensA().get(1));
 
-        azul.pontuacao = 4;
-        verde.pontuacao = 4;
+        azul.setPontuacao(4);
+        verde.setPontuacao(4);
 
         azul.addPropertyChangeListener(jogGraficoAzul);
         verde.addPropertyChangeListener(jogGraficoVerde);

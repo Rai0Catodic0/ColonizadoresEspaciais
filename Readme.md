@@ -32,21 +32,21 @@ Ganha o jogador que fizer 12 pontos primeiro (cada item construído
 [`Slides`](mediasDoProjeto/ColonizadoresEspaciaisSlides.pdf)
 
 ## Slides da Apresentação Final
-`colocar link da apresentacao final`
+[Slide Final](https://docs.google.com/presentation/d/11qTxp_TWNRNH8hJwHmlFnG_UQ2e56wFU4XpdZa-8dr0/edit?usp=sharing)
 
 ## Relatório de Evolução
 
 > A maior dificuldade encontrada foi pensar em uma arquitetura para o projeto que envolvesse a interface gráfica, pois não tínhamos conhecimento de como ela funcionava e não sabíamos como montar seu planejamento.
-> Inicialmente havia uma única classe View, que se comunicava com o Controlador, o que gerava problemas. Pois o controlador atualizava diretamente a View.
+> Inicialmente havia uma única classe View, que se comunicava com o Controlador, o que gerava problemas. Pois o controlador atualizava diretamente a View, ao mesmo tempo e que recebia requisoções dela.
 > Com a evolução do projeto, fizemos um componente View para cada componente que tivesse uma interface visual. Desse modo, conseguimos aplicar o pattern Observer para que o componente modelo notificasse a view sempre que houvesse uma mudança.
-> Com isso, o controlador, passou a se preocupar em notificar somente o tabuleiro sobre requisões do usuário e o próprio tabuleiro e componentes atualizamvam a view. 
+> Com isso, o controlador, passou a se preocupar em notificar somente o tabuleiro sobre requisões do usuário e o próprio tabuleiro e componentes atualizavam a view.
 
-> Outra dificuldade foi o uso de interfaces, que sofreu várias mudanças no decorrer do projeto. 
-> Estávamos com algumas dificuldades sobre seu papel, adicionando muitas interfaces.
+> Esse é o diagrama geral e de componentes antigos, a versão atualizada será mostrada adiante
 
-> O desing foi outra dificuldade encontrada, ele demorou um pouco para ser consolidado. Começamos usando java canvas, mas transicionamos para a biblioteca JavaFX por achá-la mais bonita e intuitiva de usar.
+![Diagrama Geral_Antigo](mediasDoProjeto/diagramaGeralAntigo.png)
+![Diagrama Componentes_Antigo](mediasDoProjeto/diagramaComponentesAntigo.png)
 
-> Algo que ficou evidente com o final do projeto, foi a importância da arquitetura e de fazer um bom planejamento. Por falta de conhecimento, não conseguimos fazer isso logo de início e atrapalhou muito o desenvolvimento, pois tivemos que mudar várias vezes a contrução do projeto.
+> Algo que ficou evidente com o final do projeto, foi a importância da arquitetura e de fazer um bom planejamento. Por falta de conhecimento, não conseguimos fazer isso logo de início e atrapalhou muito o desenvolvimento, pois tivemos que mudar várias vezes durante a contrução do projeto.
 
 # Destaques de Código
 
@@ -63,7 +63,10 @@ public void algoInteressante(…) {
 `Adotamos o Pattern observer`
 
 ## Diagrama do Pattern
-`COLOCAR DIAGRAMA`
+
+![Diagrama Pattern_Jogador](mediasDoProjeto/patternJogador.png)
+![Diagrama Pattern_Planeta](mediasDoProjeto/patternPlaneta.png)
+
 
 ## Código do Pattern
 
@@ -143,23 +146,22 @@ public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
 # Diagramas
 
 ## Diagrama Geral do Projeto
-![Diagrama Geral](mediasDoProjeto/diagramageral.png)
+![Diagrama Geral](mediasDoProjeto/diagramaGeralAtualizado.png)
 
-> A classe principal App instancia as classes "Controle", "View" e "Tabuleiro". Cada uma dessas classes é responsável por instanciar os itens que a contem.
-> A View cria o contexto com a interface Gráfica e o Tabuleiro cria os planetas com seus respectivos itens.
-> O App faz uma conexão entre o a parte visual do planeta com a a classe "Planeta", para que essa classe atualize diretamente a View quando muda seu estado.
-> O controle recebe os comandos da View e os requisita para o tabuleiro e também controla a vez do jogador.
+> A classe principal App instancia o Controle. Esse componente instancia o Tabuleiro (que cria seus itens e recursos conforme regras do jogo) e as respectivas partes gráficas dos componentes.
+> Ele conecta os componentes com suas partes gráficas e inicia o jogo, coordenando as vezes do jogador e recebendo ações das views e passando para o Tabuleiro, que as administra os itens entre os planetas e valida ações ou requisita ações dos planetas.
 
 ## Diagrama Geral de Componentes
 
-![Diagrama geral de componentes](mediasDoProjeto/diagramageralcomponentes.png)
+![Diagrama geral de componentes](mediasDoProjeto/diagramaComponentesAtualizado.png)
 
 
 ## Componente `Jogador`
 
->   O Componente Jogador tem como função armazenar a potuação, recursos e itens do jogador
-> para que o controle saiba quando o jogo acabou e quais ações são possíveis no turno atual\
-![Diagrama do Componente jogador](mediasDoProjeto/CJogador.png)
+>   O Componente Jogador tem como função armazenar a potuação, recursos e itens do jogador e também saber se todos os seus itens foram removidos ou se é a sua vez de jogar.
+> para que o controle saiba quando o jogo acabou e quais ações são possíveis no turno atual.
+
+![Diagrama do Componente jogador](mediasDoProjeto/componenteJogador.png)
 
 **Ficha Técnica**
 item | detalhamento
@@ -173,22 +175,52 @@ Interfaces | `Ijogador`
 
 Interfaces associadas a esse componente:
 
-![Diagrama Interfaces](mediasDoProjeto/Ijogador.png)
+![Diagrama Interfaces](mediasDoProjeto/IJogador.png)
 
 Interface agregadora do componente em Java: 
 
 ~~~java
 public interface IJogador {
-    void AdicionarItem(Item item);
-    boolean RemoverItem(Item item);
+    void setItem(Item item);
+    void setPontuacao(int pontuacao);
+    int getPontuacao();
+    void updateRecursos();
+    int getQtdItens();
+    void IniciarJogador();
+    void setNome(String nome);
 }
 ~~~
+
+## Detalhamento da Interface
+
+### Interface `IJogador`
+
+`A interface contém métodos necessários para que o controle obtenha as informações que precisa para saber, por exemplo, se o jogo ainda continua, se o jogador já moveu todos os itens, se o jogador tem recursos suficientes para construir itens.`
+
+Método | Objetivo
+----- | -----
+`setItem`| `atualiza os itens iniciais do jogador quando o jogo começa`
+`setPontuacao` | `atualiza a pontuação inicial do jogador quando o jogo começa`
+`getPontuacao` | `retorna a pontuação atual do jogador para o Controle`
+`updateRecursos` | `atualiza todos os recursos do jogador com base nos recursos que seus itens armazenam`
+`getQtdItens` | `retorna a quantidade de itens que o jogador possui`
+`setNome` | `atualiza o nome do jogador quando digitado pelo usuário`
+`IniciarJogador` | `jogador inicia o jogador gráfico para que apareça na tela suas informações iniciais atualizadas`
+
+### Interface `ITrocarVez`
+
+`A interface é compartlhada por mais de um componente. É necessária para os componentes que precisam agir conforme turno do jogo`
+
+Método | Objetivo
+----- | -----
+`TrocarVez`| `atualiza o jogador para trocar a vez do seu estado atual`
+
 ## Componente `Controle`
 
 >   Esse componente administra o estado do Jogador, atualizando sempre que ocorre alguma mudança de pontos e administrando a vez dos jogadores.
 > Ele recebe os comandos do usuário pela interface gráfica e requisita as funções específicas para o tabuleiro caso elas sejam validadas.
 
-![Diagrama do Componente jogador](mediasDoProjeto/CControle.png)
+![Diagrama do Controle](mediasDoProjeto/componenteControle.png)
 
 **Ficha Técnica** 
 item | detalhamento
@@ -206,16 +238,44 @@ Interfaces associadas a esse componente:
 Interface agregadora do componente em Java:
 
 ~~~java
-public interface IControle {
-    boolean Construir(Item item);
-    boolean Mover(Item item);
+public interface IControle extends ITrocarVez {
+    boolean Mover(int planetaClicado, int planetaRecebeAcao, String objeto);
+    int getVez();
+    boolean Construir(int id, String objeto);
 }
 ~~~
+## Detalhamento da Interface
+
+### Interface `IControle`
+
+`A interface contém os métodos que a view precisa requisitar ao controle conforme ação do jogador`
+
+Método | Objetivo
+----- | -----
+`Mover`| `recebe o id dos planetas clicados e o nome do objeto a ser movido, requisita o movimento ao tabuleiro e retorna a resposta dele`
+`getVez` | `retorna a vez do jogador para que a interface gráfica saiba quais elementos mostrar`
+`Construir` | `retorna a pontuação atual do jogador para o Controle`
+
+### Interface `ITrocarVez`
+
+`A interface é compartlhada por mais de um componente. É necessária para os componentes que precisam agir conforme turno do jogo`
+
+~~~java
+public interface ITrocarVez {
+    void TrocarVez();
+}
+~~~
+
+Método | Objetivo
+----- | -----
+`TrocarVez`| `requisitado pela interface gráfica quando usário quer passar sua vez e é usado pelo controle para coordenar turnos`
+        
 ## Componente `Tabuleiro`
 
->   O Componente Jogador tem como função armazenar a potuação, recursos e itens do jogador
-> para que o controle saiba quando o jogo acabou e quais ações são possíveis no turno atual\
-![Diagrama do Componente jogador](mediasDoProjeto/CTabuleiro.png)
+> O componente contém uma matriz com todos os planetas. Ele instancia os planetas e os itens iniciais de cada planeta. Éle quem administra o movimento dos itens pelos planetas, requisitando para o planeta inserção, remoção de itens, recursos novos.
+> Realiza esses movimento quando o controle requisita sua ação.
+> 
+![Diagrama do Tabuleiro](mediasDoProjeto/componenteTabuleiro.png)
 
 **Ficha Técnica**
 item | detalhamento
@@ -230,23 +290,130 @@ Interfaces associadas a esse componente:
 
 ![Diagrama Interfaces](mediasDoProjeto/ITabuleiro.png)
 
+Interface agregadora em java
 
 ~~~java
-public interface ITabuleiro {
-    void Mover(int idDestino, int idOrigem, String itemMovido);
-    void Construir(int id, String objeto);
+public interface ITabuleiro extends IGerarRecurso, IConstruir {
+    public Object[] Mover(int idDestino, int idOrigem, String itemMovidoTexto) throws RuntimeException;
 }
 ~~~
+
+Método | Objetivo
+----- | -----
+`Mover`| `recebe os planetas de origem e destino e o nome do item a ser movido, faz as verificações nos planetas e insere e remove o item deles`
+
+## Detalhamento da Interface
+
+### Interface `IConstruir`
+
+`Contem o método construir que é compartilhado por mais de uma interface do jogo.`
+
+~~~java
+public interface IConstruir {
+    Item Construir(int id, String objeto);
+}
+~~~
+
+Método | Objetivo
+----- | -----
+`Construir`| `recebe id do planeta em que será construído um item e o nome do item, retorna se foi possível construir ou não`
+
+### Interface `IGerarRecurso`
+
+`Contem o método para Gerar Recurso que é compartilhado por mais de uma interface do jogo.public interface IGerarRecurso`
+
+~~~java
+public interface IGerarRecurso {
+    void GerarRecursos();
+}
+~~~
+
+Método | Objetivo
+----- | -----
+`GerarRecursos`| `requisita que a classe que implementa esse método gere recurso, no tabuleiro, esse meodo sorteia dois planetas e requisita que eles gerem recursos`
+
+
 ## Componente `Tile`
 
->   Envolve o Planeta, os Itens instanciados em cada Planeta e os recursos disponíveis nos planetas. 
-> É ele que insere ou remove itens do planeta. Esse componente também conhece seus vizinhos (outros componentes Tile) e fornece essa informação quando necessário para que o tabuleiro possa validar o movimento.
-![Diagrama do Componente jogador](mediasDoProjeto/CTile.png)
+>   Engloba o Planeta, os Itens instanciados em cada Planeta e os recursos disponíveis nos planetas. 
+> É ele que insere ou remove os itens do planeta. Esse componente também conhece seus vizinhos (outros componentes Tile) e fornece essa informação quando necessário para que o tabuleiro possa validar o movimento.
+
+![Diagrama do_Planeta](mediasDoProjeto/componentePlaneta.png)
 
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
 Classe |  `Tabuleiro.Tile`
+Autores | `Jéssica & Gabriel`
+Interfaces | `IPlaneta`
+
+### Interfaces
+
+Interfaces associadas a esse componente:
+
+![Diagrama Interfaces](mediasDoProjeto/IPlaneta.png)
+
+Interface agregadora do componente em Java:
+
+~~~java
+public interface IPlaneta extends IGerarRecurso, IConstruir {
+    void Remover(Item item);
+    boolean Inserir(Item item);
+    List<Item> getItens();
+    boolean  isVizinho(int idVizinho);
+}
+~~~
+
+Método | Objetivo
+----- | -----
+`Remover`| `planeta remove o item que está nele`
+`Inserir`| `planeta insere o item que recebe`
+`getItens`| `planeta retorna os itens que possui`
+`isVizinho`| `planeta recebe um id e retorna se o id é de um planeta vizinho a ele ou não`
+
+## Detalhamento da Interface
+
+### Interface `IConstruir`
+
+`Contem o método construir que é compartilhado por mais de uma interface do jogo.`
+
+~~~java
+public interface IConstruir {
+    Item Construir(int id, String objeto);
+}
+~~~
+
+Método | Objetivo
+----- | -----
+`Construir`| `recebe id do planeta em que será construído um item e o nome do item, instancia um novo item e insere no planeta`
+
+### Interface `IGerarRecurso`
+
+`Contem o método para Gerar Recurso que é compartilhado por mais de uma interface do jogo.public interface IGerarRecurso`
+
+~~~java
+public interface IGerarRecurso {
+    void GerarRecursos();
+}
+~~~
+
+Método | Objetivo
+----- | -----
+`GerarRecursos`| `requisita que a classe que implementa esse método gere recurso, no Tile, essa classe instancia um novo recurso e o insere no item que está nele`
+
+
+## Componente `TileView`
+
+>  Esse componente é a interface gŕafica do planeta e seus itens. 
+> É atualizado pelo componente Tile toda vez que ele muda seu estado, (desenhando ou excluindo os itens da tela conforme eles se mexem) e também é inicializado pelo Tile.
+> O TileView requisita ações para o controle sempre que é clicado
+> 
+![Diagrama do Tile](mediasDoProjeto/componenteTile.png)
+
+**Ficha Técnica**
+item | detalhamento
+----- | -----
+Classe |  `View.TileView`
 Autores | `Jéssica & Gabriel`
 Interfaces | `ITile`
 
@@ -260,104 +427,87 @@ Interface agregadora do componente em Java:
 
 ~~~java
 public interface ITile {
-    boolean isVizinho(int id);
-    Item Construir(String objeto);
-    Item Remover(String itemRemovido);
-    Item Inserir(Item itemInserido);
-}
-~~~
-## Componente `TileView`
-
->  Esse componente é a interface gŕafica do planeta e seus itens. 
-> É atualizado pelo componente Tile toda vez que ele muda seu estado, (desenhando ou excluindo os itens da tela conforme eles se mexem) e também é inicializado pelo Tile.
-> O TileView é um botão que requisita ações para View sempre que é clicado.
-> 
-![Diagrama do Componente jogador](mediasDoProjeto/CTileView.png)
-
-**Ficha Técnica**
-item | detalhamento
------ | -----
-Classe |  `View.TileView`
-Autores | `Jéssica & Gabriel`
-Interfaces | `ItileView`
-
-### Interfaces
-
-Interfaces associadas a esse componente:
-
-![Diagrama Interfaces](mediasDoProjeto/ITileView.png)
-
-Interface agregadora do componente em Java:
-
-~~~java
-public interface ITileView {
-    void Update(List<Item> itens);
     void IniciarTile();
+    void update();
+    void setPlanetaId(int i);
+    void setImgpath(String imgpath);
+    void setItens(List<Item> items);
+    void setPositionsPixels(int[] positions);
 }
 ~~~
-## Componente `View`
 
-> Organiza toda a estrutura gráfica do Jogo, mostrando na tela o menu com os materiais e itens dos jogadores, e os botões específicos conforme as regras do jogo.
-> 
-![Diagrama do Componente jogador](mediasDoProjeto/CView.png)
+## Detalhamento da Interface
+
+### Interface `ITile`
+
+`Contem os métodos que o Planeta precisa para atualizar e inicializar sua versão gráfica`
+
+Método | Objetivo
+----- | -----
+`setPlanetaId`| `atualiza o id do planeta que o Tile vai representar`
+`setImgPath` | `atualiza a imagem do planeta que o Tile vai representar`
+`setItens` | `atualiza os itens que o planeta possui, para que o Tile possa representá-los graficamente`
+`setPositionPixels` | `atualiza a posição na tela em que o Tile deve desenhar planetas e itens`
+`update` | `redesenha o planeta com seus itens, atualizando a imagem gráfica` 
+`IniciarTile` | `desenha as informações iniciais na tela para iniciar o jogo`
+
+## Componente `JogadorGrafico`
+
+>  Representa as informações gráficas do jogador na tela (quantidade de itens, recursos e pontuação). É somente visual, portanto não interage recebendo eventos do usuário.
+
+![Diagrama do Jogador_Grafico](mediasDoProjeto/componenteJogadorGrafico.png)
 
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
-Classe |  `View`
+Classe |  `View.JogadorGrafico`
 Autores | `Jéssica & Gabriel`
-Interfaces | `IView`
+Interfaces | `IJogadorGrafico`
 
 ### Interfaces
 
 Interfaces associadas a esse componente:
 
-![Diagrama Interfaces](mediasDoProjeto/IView.png)
+![Diagrama Interfaces](mediasDoProjeto/IJogadorGrafico.png)
 
 Interface agregadora do componente em Java:
 
 ~~~java
-public interface IView {
-    void ClicarBarra(ActionEvent actionEvent);
-    void ClicarPlaneta(ActionEvent actionEvent);
-    void ClicarConstruir(ActionEvent actionEvent);
+public interface IJogadorGrafico {
+    void setNome(String nome);
+    void update(int pontos);
+    vois TrocarVez();
 }
 ~~~
-## Detalhamento das Interfaces
 
-### Interface `IItem`
+## Detalhamento da Interface
 
-Padronizar e modularizar a comunicação entre as classes Item e Planeta
+### Interface `IJogadorGrafico`
+
+`Contém métodos que o jogador precisa para atualizar sua interface gráfica`
+
+Método | Objetivo
+----- | -----
+`setNome`| `atualiza o nome do jogador no início do jogo`
+`update` | `atualiza a quantidadede pontos que o jogador tem`
+
+### Interface `ITrocarVez`
+
+`A interface é compartlhada por mais de um componente. É necessária para os componentes que precisam agir conforme turno do jogo`
 
 ~~~java
-public interface IItem {
-    public static List<Recursos> coletados = new ArrayList<Recursos>();
-    // acoes de jogo
-    int lutar();
-    void  recolherRecurso(Recursos coletado);
-    // getters e setters
-    List<Integer> getPosition();
-    List<Recursos> getColetados();
-    String getType();
-    String getImgPath();
+public interface ITrocarVez {
+    void TrocarVez();
 }
-
 ~~~
 
 Método | Objetivo
--------| --------
-`lutar` | Retorna um int que quando comparado com o valor fornecido por outro item determina quem ganhou a luta.
-`recolherRecurso` | !!um pequeno problema!!Recebe um objeto da classe Recursos e adiciona ao atributo estático coletados que armazena todos os recursos coletados pelo jogador .
-`getPosition`| Retorna uma lista no formato [i,j] que representa a qual planeta da matriz o item pertence 
-`getColetados`|retorna uma lista de recursos coletados pelos itens
-`getType` | Retorna uma string informando o nome da classe.
-`getImgpath` | Retorna uma string com o caminho para o arquivo da imagem para o item
-`.
+----- | -----
+`TrocarVez`| `requisitado pela interface gráfica quando usário quer passar sua vez e é usado pelo controle para coordenar turnos`
 
 # Plano de Exceções
 
 ## Diagrama da hierarquia de exceções
-`<Elabore um diagrama com a hierarquia de exceções como detalhado abaixo>`
 
 ![Hierarquia Exceções](mediasDoProjeto/exceções.png)
 
