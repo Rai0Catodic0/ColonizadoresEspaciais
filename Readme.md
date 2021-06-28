@@ -254,7 +254,7 @@ public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
 > Outra melhoria possivel é o uso de vetores para armazenar as intâncias dos jogadores no controle ,o que iria possibilitar ampliar os numeros de jogadores. Isso abre espaço para varias novas mecânicas de jogo como troca entre jogadores, ampliação do tamanho do tabuleiro e numero de planetas , cartas de objetivo como por exemplo o jogador com maior frota de naves ganha ponto ou o jogador com mais planetas do mesmo tipo ganha um ponto extra
 <br>
 > Um modo online é algo que o grupo gostaria muito que fosse implementado, utilizando banco de dados e sockets para permitir que o jogo possa ter um multiplayer online .
-> 
+
 
 # Documentação dos Componentes
 
