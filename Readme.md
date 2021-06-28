@@ -163,7 +163,7 @@ public String getImgPath(){
         int imgNumber = new Random().nextInt(2);
         this.imgpath = "images/planeta"+type+ imgNumber;
     }
-~~
+~~~
 
 # Destaques de Pattern
 `Adotamos o Pattern observer`
