@@ -24,7 +24,7 @@ Ganha o jogador que fizer 12 pontos primeiro (cada item construído
 [![preview](mediasDoProjeto/video.png)](https://drive.google.com/file/d/1sm055svD8BkM5IXoianjSeHf3vuLuPKr/view?usp=sharing)
 
 ## Vídeo do Jogo
-[![preview](mediasDoProjeto/unknown.png)](https://r1---sn-bg07dn6r.c.drive.google.com/videoplayback?expire=1624866345&ei=6UXZYPrvOfCC0_wP08uX2AI&ip=152.249.172.247&cp=QVRHVklfVVNSRlhPOjVwREE1MnBUck1SektuUnRPdGZrdzRtMUpkN2JVZ1FvS0xwTW5Vcl9EaFM&id=11cdc12342dfcc07&itag=18&source=webdrive&requiressl=yes&sc=yes&ttl=transient&susc=dr&driveid=1GXtweUdVgBALA0UBgLl2Ft-Lv1kjOEnw&app=explorer&mime=video/mp4&vprv=1&prv=1&dur=300.094&lmt=1624851478733396&sparams=expire,ei,ip,cp,id,itag,source,requiressl,ttl,susc,driveid,app,mime,vprv,prv,dur,lmt&sig=AOq0QJ8wRgIhAMJ6TAhvqnEgQkVWAVrg4gZR8siT1E6QZiciGEFo2qtAAiEA_3DMa5zsTtufxaLDNe5ye51OKFimOKVS0t0zrP_CMHU=&cpn=KaoDLOoeHdOkhI8I&c=WEB_EMBEDDED_PLAYER&cver=1.20210623.1.0&redirect_counter=1&rm=sn-bg0r77e&req_id=436bf50e4aeb36e2&cms_redirect=yes&ipbypass=yes&mh=ON&mip=2804:431:c7fa:5801:c0cc:a19:9906:5da1&mm=32&mn=sn-bg07dn6r&ms=su&mt=1624851618&mv=m&mvi=1&pl=52&lsparams=ipbypass,mh,mip,mm,mn,ms,mv,mvi,pl,sc&lsig=AG3C_xAwRQIhANFnfs2ytdN4byfMHf7zAeKkSRpO_SITHXaqI7qcGoeJAiBV2zZZvAeToo4xaGNQiKgH1eD_il2ixlQky4toHr9ZhQ%3D%3D)
+[![preview](mediasDoProjeto/unknown.png)](https://drive.google.com/file/d/1GXtweUdVgBALA0UBgLl2Ft-Lv1kjOEnw/view?usp=sharing)
 
 # Slides do Projeto
 
@@ -50,14 +50,120 @@ Ganha o jogador que fizer 12 pontos primeiro (cada item construído
 
 # Destaques de Código
 
-> COLCAR PARTE RELEVANTE DO CÓDIGO
-~~~java
-// Recorte do seu código
-public void algoInteressante(…) {
-   …
-   trechoInteressante = 100;
-}
+
+## Uso de Herança para metodos nos itens:
+> O uso da herança permitiu implementar os metodos mais gerais dos itens apenas uma vez, assim reduzindo a possibilidade de erros e facilitando a refatoração e solução de erros
+~~~ java
+// src.itens.item.java
+public void recolherRecurso(Recursos coletado) {
+        coletado.setDono(this.representacao);
+        coletados.add(coletado);
+        }
+
+public String getImgPath(){
+        /**
+         *  retorna o cominho que contem a imagem pra esse item
+         */
+        String imgPath;
+        imgPath = "images/"+this.getType()+this.representacao+".png";
+        return imgPath;
+        }
 ~~~
+
+## Uso de Polimorfismo para implementar versões diferentes do lutar nos itens:
+> O uso do Polimorfismo facilitou na padroinização e encapsulamento do metodo lutar para as subclasses da classe Item
+~~~ java
+    //src.itens.Item    
+    @Override
+        public int lutar() {
+            Random gerador = new Random();
+            return gerador.ints(1,0,6).toArray()[0];
+        }
+~~~
+~~~ java
+    //src.itens.NaveGuerra
+    @Override
+    public int lutar(){
+        Random gerador = new Random();
+        int[] result = gerador.ints(2,0,6).toArray();
+        int max = 0;
+        for( int i = 0; i<result.length; i ++){
+            if( max < result[i]){
+                max = result[i];
+            }
+        }
+        return max;
+    }
+~~~
+~~~ java
+    //src.itens.Satelite
+    @Override
+    public int lutar(){
+
+        Random gerador = new Random();
+        int[] result =  gerador.ints(3,0,6).toArray();
+        int max = 0;
+        for(int i = 0; i<result.length; i++){
+            max = result[i];
+        }
+        return max;
+    }
+~~~
+
+## Uso de multithreading 
+
+> Uma simples aplicação de multithreading para alterar a view sem que a interação do player seja prejudicada 
+
+~~~ java
+    //src.View.Tile
+
+    public void showHighLight(String highLightPath, int x, int y){
+        ImageView fundo = new ImageView(new Image(highLightPath));
+        fundo.setX(x);
+        fundo.setY(y);
+        this.getChildren().add(fundo);
+        fundo.toBack();
+        Task<Void> sleeper = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    Thread.sleep(2000);
+
+                }catch (InterruptedException e){
+
+                }return null;
+            }
+        };
+        sleeper.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent workerStateEvent) {
+                getChildren().remove(fundo);
+            }
+        });
+        new Thread(sleeper).start();
+    }
+~~~
+
+## Uso de Atributos para associar classes e as imagens dos icones
+
+> Foi utilizado um padrão para nomear os arquivos de modo que fosse possivel que cada planeta tivesse sua imagem escolhida aleatoriamente,dando um visual mais dinamico no tabuleiro 
+
+~~~ java
+    //src.Tabuleiro.Planeta
+    
+    public Planeta(int i, int j, int ipixels, int jpixels, int id, String  type) {
+        support = new PropertyChangeSupport(this);
+        this.i = i;
+        this.j = j;
+        this.ipixels = ipixels;
+        this.jpixels = jpixels;
+        this.id = id;
+        //this.idVizinhos = idVizinhos;
+        this.type = type;
+        int imgNumber = new Random().nextInt(2);
+        this.imgpath = "images/planeta"+type+ imgNumber;
+    }
+~~
 
 # Destaques de Pattern
 `Adotamos o Pattern observer`
@@ -138,9 +244,15 @@ public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
 
 # Conclusões e Trabalhos Futuros
 
-> Patterns fututos??????????????????????/ Melhorias?????????????????? Lições Aprendidas?????????/
-> Uma melhoria que poderia ser implementada é um componente Montador. No início do jogo, parecia que não havia necessidade de usá-lo, mas conforme o jogo cresceu, esse componente poderia ser usado pelo controlador para construir o jogo e conectar observers com seus obsevebles, retornando um jogo pronto para o controle.
+## Patterns futuros
 
+> Um dos patterns futuros que poderia ser implementado seria o singleton para garantir que não haja duplicação de itens ou recursos no jogo
+>. Alem disso uso do pattern obsever poderia ser ampliado para facilitar a atualização de partes da interface gráfica
+## Melhorias Futuras 
+> Uma melhoria que poderia ser implementada é um componente Montador. No início do jogo, parecia que não havia necessidade de usá-lo, mas conforme o jogo cresceu, esse componente poderia ser usado pelo controlador para construir o jogo e conectar observers com seus obsevebles, retornando um jogo pronto para o controle.
+> Outra melhoria possivel é o uso de vetores para armazenar as intâncias dos jogadores no controle ,o que iria possibilitar ampliar os numeros de jogadores. Isso abre espaço para varias novas mecânicas de jogo como troca entre jogadores, ampliação do tamanho do tabuleiro e numero de planetas , cartas de objetivo como por exemplo o jogador com maior frota de naves ganha ponto ou o jogador com mais planetas do mesmo tipo ganha um ponto extra
+<br>
+> Um modo online é algo que o grupo gostaria muito que fosse implementado, utilizando banco de dados e sockets para permitir que o jogo possa ter um multiplayer online .
 # Documentação dos Componentes
 
 # Diagramas
